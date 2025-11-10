@@ -43,7 +43,7 @@
         <span class="badge">Wildfire Resilience</span>
         <h2>Resilient, Equitable, Community-Oriented Rebuilding</h2>
         <div class="actions">
-          <button class="btn brand" onclick="window.print()">Print / Save as PDF</button>
+          <button class="btn brand" id="printBtn">Print / Save as PDF</button>
           <button class="btn" id="expandAll">Expand all</button>
           <button class="btn" id="collapseAll">Collapse all</button>
         </div>
@@ -106,21 +106,22 @@
       <h3>Wildfire Events</h3>
       <p class="small">Enter an area and time window. Results will appear below and on the map.</p>
 
-      <form id="wf-form" class="wf-form">
+      <form id="wf-form" class="wf-form" novalidate>
         <fieldset class="wf-fieldset">
           <legend>Area</legend>
           <div class="wf-row">
-            <label>Min Longitude <input type="number" step="0.01" id="wfMinLon" value="0" required></label>
-            <label>Min Latitude  <input type="number" step="0.01" id="wfMinLat" value="0" required></label>
-            <label>Max Longitude <input type="number" step="0.01" id="wfMaxLon" value="0" required></label>
-            <label>Max Latitude  <input type="number" step="0.01" id="wfMaxLat" value="0" required></label>
+            <!-- text inputs to avoid locale/number issues; we parse in JS -->
+            <label>Min Longitude <input inputmode="decimal" type="text" id="wfMinLon" value="0"></label>
+            <label>Min Latitude  <input inputmode="decimal" type="text" id="wfMinLat" value="0"></label>
+            <label>Max Longitude <input inputmode="decimal" type="text" id="wfMaxLon" value="0"></label>
+            <label>Max Latitude  <input inputmode="decimal" type="text" id="wfMaxLat" value="0"></label>
           </div>
         </fieldset>
 
         <fieldset class="wf-fieldset">
           <legend>Time window</legend>
           <div class="wf-row">
-            <label>Days look-back <input type="number" min="0" id="wfDays" value="0"></label>
+            <label>Days look-back <input inputmode="numeric" type="text" id="wfDays" value="0"></label>
             <span class="wf-or" aria-hidden="true">or</span>
             <label>Start <input type="date" id="wfStart"></label>
             <label>End <input type="date" id="wfEnd"></label>
@@ -172,4 +173,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
