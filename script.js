@@ -115,10 +115,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   })
 });
 
-/* ==================== Wildfire Events module (appearance-only changes live in CSS) ==================== */
+/* ==================== Wildfire Events module ==================== */
 (function () {
+  const form = document.getElementById('wf-form');
+  if (!form) return; // run only if the widget exists
+
   const els = {
-    form:   document.getElementById('wf-form'),
     minLon: document.getElementById('wfMinLon'),
     minLat: document.getElementById('wfMinLat'),
     maxLon: document.getElementById('wfMaxLon'),
@@ -131,15 +133,14 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     summary:document.getElementById('wfSummary'),
     tbody:  document.getElementById('wfTbody')
   };
-  if(!els.form) return;
 
   const wfLayer = L.layerGroup().addTo(map);
 
-  // locale-safe parsing
+  // locale-safe number parsing; accepts "−" and comma decimals
   function parseDec(v){
     if (v == null) return NaN;
     let s = String(v).trim();
-    s = s.replace(/\u2212|\u2012|\u2013|\u2014/g, '-');
+    s = s.replace(/\u2212|\u2012|\u2013|\u2014/g, '-'); // unicode minus variants
     s = s.replace(/,/g, '.').replace(/\s+/g, '');
     const n = Number(s);
     return Number.isFinite(n) ? n : NaN;
@@ -211,8 +212,8 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.2));
   }
 
-  els.form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // stop page jump
 
     const minLon = parseDec(els.minLon.value);
     const minLat = parseDec(els.minLat.value);
