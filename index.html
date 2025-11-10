@@ -83,7 +83,6 @@
         </div>
       </div>
     </section>
-
     <section class="panel accordion" id="risk">
       <summary><h3>Risk & Damage: What to Prioritize First</h3></summary>
       <div class="meta">Based on the plan’s geospatial damage & hazard analysis (pp. 8–9).</div>
@@ -105,7 +104,6 @@
         <p class="note">Environmental context summarized from p.7 of the plan.<sup class="small">[Source]</sup></p>
       </details>
     </section>
-
     <section class="panel accordion" id="hubs">
       <summary><h3>Community Recovery Hubs & Key Facilities</h3></summary>
       <div class="meta">Hubs, health providers, schools, parks, water providers, and fire stations (pp. 10–12).</div>
@@ -128,7 +126,6 @@
         </ul>
       </details>
     </section>
-
     <section class="panel accordion" id="water">
       <summary><h3>Integrated Water Resilience</h3></summary>
       <div class="meta">Mandatory site-level harvesting, distributed storage, greywater, neighborhood networks, and monitoring (pp. 12–13).</div>
@@ -176,7 +173,6 @@
         </div>
       </details>
     </section>
-
     <section class="panel accordion" id="mobility">
       <summary><h3>Mobility, Transit & Emergency Functions</h3></summary>
       <div class="meta">Altadena/Lake & Fair Oaks/Altadena nodes, frequencies, equity metrics, and emergency roles (pp. 14–15).</div>
@@ -189,7 +185,6 @@
         </ul>
       </details>
     </section>
-
     <section class="panel accordion" id="green">
       <summary><h3>Green & Resilient Rebuilding Guidelines</h3></summary>
       <div class="meta">Energy efficiency, renewables + storage, fire-resistant materials, stormwater, equity, urban forestry (pp. 16–17).</div>
@@ -204,7 +199,6 @@
         </ul>
       </details>
     </section>
-
     <section class="panel accordion" id="equity">
       <summary><h3>Equity-Centered Resource Allocation & Housing</h3></summary>
       <div class="meta">Prioritize low-income, seniors, renters; transparent criteria; anti-displacement measures (pp. 22–23).</div>
@@ -217,7 +211,6 @@
         </ul>
       </details>
     </section>
-
     <section class="panel accordion" id="monitoring">
       <summary><h3>Monitoring, Feedback & Adaptive Implementation</h3></summary>
       <div class="meta">Real-time dashboards, community reporting loops, and agile governance (pp. 20–21).</div>
@@ -230,13 +223,14 @@
         </ul>
       </details>
     </section>
-
     <section class="panel" id="tools">
       <h3>Home-Hardening & Safety Tools</h3>
       <div class="grid cols-2">
         <div>
           <h4>Home-Hardening Checklist</h4>
-          <div id="checklist" class="checklist"></div>
+          <div id="checklist" class="checklist">
+            <!-- items added by JS -->
+          </div>
           <p class="note">This mirrors the fire-resilient building guidance (pp. 16–17) and defensible space best practices.</p>
           <div class="small" id="progress">0 of 10 completed</div>
         </div>
@@ -251,67 +245,11 @@
         </div>
       </div>
     </section>
-
-    <!-- ▼▼ New: Wildfire Events widget (appearance matches your latest) ▼▼ -->
-    <section class="panel" id="wildfire-tools">
-      <h3>Wildfire Events</h3>
-      <p class="small">Enter an area and time window. Results will appear below and on the map.</p>
-
-      <form id="wf-form" class="wf-form" novalidate>
-        <fieldset class="wf-fieldset">
-          <legend><span>Area</span></legend>
-          <div class="wf-row">
-            <label>Min Longitude <input inputmode="decimal" type="text" id="wfMinLon" value="0"></label>
-            <label>Min Latitude  <input inputmode="decimal" type="text" id="wfMinLat" value="0"></label>
-            <label>Max Longitude <input inputmode="decimal" type="text" id="wfMaxLon" value="0"></label>
-            <label>Max Latitude  <input inputmode="decimal" type="text" id="wfMaxLat" value="0"></label>
-          </div>
-        </fieldset>
-
-        <fieldset class="wf-fieldset">
-          <legend><span>Time window</span></legend>
-          <div class="wf-row">
-            <label>Days look-back <input inputmode="numeric" type="text" id="wfDays" value="0"></label>
-            <span class="wf-or" aria-hidden="true">or</span>
-            <label>Start <input type="date" id="wfStart"></label>
-            <label>End <input type="date" id="wfEnd"></label>
-          </div>
-        </fieldset>
-
-        <div class="wf-actions">
-          <button type="submit" id="wfRun" class="btn brand">Fetch Wildfires</button>
-          <button type="button" id="wfClear" class="btn">Clear</button>
-        </div>
-      </form>
-
-      <div class="wf-results">
-        <div id="wfSummary" class="wf-summary" role="status" aria-live="polite">No data yet.</div>
-        <div class="wf-table-wrap">
-          <table class="wf-table" id="wfTable">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Date</th>
-                <th>Title</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Status</th>
-                <th>Sources</th>
-              </tr>
-            </thead>
-            <tbody id="wfTbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-    <!-- ▲▲ New: Wildfire Events widget ▲▲ -->
-
     <section class="panel" id="mapSection">
       <h3>Map: Recovery Hubs & Anchors</h3>
       <p class="small">Starter map centered on Altadena. Replace placeholder points with exact coordinates as needed.</p>
       <div id="map" role="region" aria-label="Map of recovery hubs"></div>
     </section>
-
     <footer>
       <div>Built from your Altadena Fire Rebuild plan (sections: demographics, risk, hubs, water, transit, green rebuild, equity, monitoring). Pages referenced inline above. <strong>Source:</strong> your uploaded PDF.</div>
       <div style="margin-top:6px" class="small">Accessibility: keyboard navigation, focusable controls, reduced motion by OS setting, print stylesheet included.</div>
