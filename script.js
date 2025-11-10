@@ -1,99 +1,128 @@
-/* ---------- Utility ---------- */
-const $ = (id) => document.getElementById(id);
-
-/* ---------- Search / TOC ---------- */
-const search = $('#search');
-const tocLinks = [...document.querySelectorAll('#toc a')];
-const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
-search?.addEventListener('input', e=>{
-  const t = e.target.value.trim().toLowerCase();
-  tocLinks.forEach(a => a.style.display = a.textContent.toLowerCase().includes(t) ? 'block' : 'none');
-});
-const obs = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    const id = '#' + e.target.id;
-    const link = tocLinks.find(a => a.getAttribute('href')===id);
-    if(e.isIntersecting){ tocLinks.forEach(x=>x.classList.remove('active')); link?.classList.add('active'); }
-  });
-},{ rootMargin: "-30% 0px -60% 0px", threshold: 0.01 });
-sections.forEach(s=>s && obs.observe(s));
-
-/* ---------- Expand/Collapse ---------- */
-$('#expandAll')?.addEventListener('click', ()=> document.querySelectorAll('details').forEach(d=>d.open=true));
-$('#collapseAll')?.addEventListener('click', ()=> document.querySelectorAll('details').forEach(d=>d.open=false));
-$('#printBtn')?.addEventListener('click', ()=> window.print());
-
-/* ---------- Checklist ---------- */
-const checklistItems = [
-  "Non-combustible exterior cladding (Class A or metal/cementitious)",
-  "Tempered glass windows; ember-resistant attic/soffit vents",
-  "Class A roof; clear debris from gutters & roof valleys",
-  "0–5 ft ‘ignition-free’ zone: gravel/hardscape only",
-  "5–30 ft lean, clean, and green landscaping (native/drought-tolerant)",
-  "Ladder fuels removed; limb trees 6–10 ft up from ground",
-  "Metal mesh (1/8” or less) on vents; seal gaps, weatherstrip doors",
-  "Addressable signage; visible hydrant/standpipe access",
-  "Solar + battery storage for outage resilience",
-  "Rainwater tank with firefighter outlet (NST or local thread)"
-];
-(function renderChecklist(){
-  const checklist = $('#checklist'); const progress = $('#progress');
-  if(!checklist) return;
-  checklist.innerHTML = "";
-  checklistItems.forEach((t,i)=>{
-    const id = "c"+i;
-    const wrap = document.createElement('label');
-    wrap.className = 'check-item';
-    wrap.innerHTML = `<input id="${id}" type="checkbox" /> <span>${t}</span>`;
-    checklist.appendChild(wrap);
-  });
-  checklist.addEventListener('change', ()=>{
-    const checks = checklist.querySelectorAll('input[type=checkbox]');
-    const done = Array.from(checks).filter(c=>c.checked).length;
-    progress.textContent = `${done} of ${checks.length} completed`;
-  });
-  progress.textContent = `0 of ${checklistItems.length} completed`;
-})();
-
-/* ---------- Map ---------- */
-const map = L.map('map', { scrollWheelZoom:false }).setView([34.19, -118.13], 12);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19, attribution: '&copy; OpenStreetMap'
-}).addTo(map);
+// --------- Search / TOC highlighting ----------
+  const search = document.querySelector('#search');
+  const tocLinks = [...document.querySelectorAll('#toc a')];
+  const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
+  function filterTOC(q){
+    const t = q.trim().toLowerCase();
+    tocLinks.forEach(a=>{
+      const match = a.textContent.toLowerCase().includes(t);
+      a.style.display = match ? 'block' : 'none';
+    });
+  }
+  search.addEventListener('input', e=>filterTOC(e.target.value));
+  // Active link on scroll
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      const id = '#' + e.target.id;
+      const link = tocLinks.find(a => a.getAttribute('href')===id);
+      if(e.isIntersecting){
+        tocLinks.forEach(x=>x.classList.remove('active'));
+        link?.classList.add('active');
+      }
+    });
+  }, { rootMargin: "-30% 0px -60% 0px", threshold: 0.01 });
+  sections.forEach(s=>obs.observe(s));
+  // --------- Expand/Collapse all ----------
+  const expandAllBtn = document.getElementById('expandAll');
+  const collapseAllBtn = document.getElementById('collapseAll');
+  function setAll(open){
+    document.querySelectorAll('details').forEach(d=>d.open = open);
+  }
+  expandAllBtn.addEventListener('click', ()=>setAll(true));
+  collapseAllBtn.addEventListener('click', ()=>setAll(false));
+  // --------- Tank sizing calculator ----------
+  function calcTank(){
+    const A = +roofArea.value;     // sq ft
+    const R = +rainIn.value;       // inches
+    const eff = +effEl.value;
+    const gpm = +gpmEl.value;
+    const min = +minutesEl.value;
+    const days = +daysEl.value;
+    const harvested = A * R * 0.623 * eff;          // gallons/year
+    const fire = gpm * min;                          // gallons
+    const domestic = 50 * 3 * days;                  // gallons (50 gpd x 3 people x days)
+    const needed = Math.ceil(fire + domestic);
+    const recommended = Math.ceil(Math.max(needed, harvested * 0.25)); // suggest at least 25% of annual capture
+    tankResult.textContent =
+      `Recommended storage ≈ ${recommended.toLocaleString()} gallons `
+      + `(fire: ${fire.toLocaleString()} + domestic: ${domestic.toLocaleString()}, `
+      + `annual harvest ~ ${Math.ceil(harvested).toLocaleString()} gal).`;
+  }
+  const roofArea = document.getElementById('roofArea');
+  const rainIn   = document.getElementById('rainIn');
+  const effEl    = document.getElementById('eff');
+  const gpmEl    = document.getElementById('gpm');
+  const minutesEl= document.getElementById('minutes');
+  const daysEl   = document.getElementById('days');
+  document.getElementById('calcBtn').addEventListener('click', calcTank);
+  // --------- Checklist ----------
+  const checklistItems = [
+    "Non-combustible exterior cladding (Class A or metal/cementitious)",
+    "Tempered glass windows; ember-resistant attic/soffit vents",
+    "Class A roof; clear debris from gutters & roof valleys",
+    "0–5 ft ‘ignition-free’ zone: gravel/hardscape only",
+    "5–30 ft lean, clean, and green landscaping (native/drought-tolerant)",
+    "Ladder fuels removed; limb trees 6–10 ft up from ground",
+    "Metal mesh (1/8” or less) on vents; seal gaps, weatherstrip doors",
+    "Addressable signage; visible hydrant/standpipe access",
+    "Solar + battery storage for outage resilience",
+    "Rainwater tank with firefighter outlet (NST or local thread)"
+  ];
+  const checklist = document.getElementById('checklist');
+  const progress = document.getElementById('progress');
+  function renderChecklist(){
+    if(!checklist) return;
+    checklist.innerHTML = "";
+    checklistItems.forEach((t,i)=>{
+      const id = "c"+i;
+      const wrap = document.createElement('label');
+      wrap.className = 'check-item';
+      wrap.innerHTML = `<input id="${id}" type="checkbox" /> <span>${t}</span>`;
+      checklist.appendChild(wrap);
+    });
+    checklist.addEventListener('change', ()=>{
+      const checks = checklist.querySelectorAll('input[type=checkbox]');
+      const done = Array.from(checks).filter(c=>c.checked).length;
+      progress.textContent = `${done} of ${checks.length} completed`;
+    });
+    progress.textContent = `0 of ${checklistItems.length} completed`;
+  }
+  renderChecklist();
+  // --------- Map (original behavior: create a global map) ----------
+  const map = L.map('map', { scrollWheelZoom:false }).setView([34.19, -118.13], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19, attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+  window.map = map; // expose for the wildfire module below
 
 /* ====================================================================== */
-/*                      WILDFIRE PANEL (locale-safe)                      */
+/*                      WILDFIRE PANEL (added)                            */
 /* ====================================================================== */
-
 (function () {
   const els = {
-    form:   $('#wf-form'),
-    minLon: $('#wfMinLon'),
-    minLat: $('#wfMinLat'),
-    maxLon: $('#wfMaxLon'),
-    maxLat: $('#wfMaxLat'),
-    days:   $('#wfDays'),
-    start:  $('#wfStart'),
-    end:    $('#wfEnd'),
-    run:    $('#wfRun'),
-    clear:  $('#wfClear'),
-    summary:$('#wfSummary'),
-    tbody:  $('#wfTbody')
+    form:   document.getElementById('wf-form'),
+    minLon: document.getElementById('wfMinLon'),
+    minLat: document.getElementById('wfMinLat'),
+    maxLon: document.getElementById('wfMaxLon'),
+    maxLat: document.getElementById('wfMaxLat'),
+    days:   document.getElementById('wfDays'),
+    start:  document.getElementById('wfStart'),
+    end:    document.getElementById('wfEnd'),
+    run:    document.getElementById('wfRun'),
+    clear:  document.getElementById('wfClear'),
+    summary:document.getElementById('wfSummary'),
+    tbody:  document.getElementById('wfTbody')
   };
   if(!els.form) return;
 
-  const wfLayer = L.layerGroup().addTo(map);
+  const wfLayer = L.layerGroup().addTo(window.map);
 
-  // Normalize any user-entered number: handles commas and fancy minus
+  // Normalize numbers (accepts “-”, Unicode minus, dots or commas)
   function parseDec(v){
     if (v == null) return NaN;
     let s = String(v).trim();
-    // Replace Unicode minus/dashes with simple hyphen
-    s = s.replace(/\u2212|\u2012|\u2013|\u2014/g, '-');
-    // Replace comma decimal with dot, but keep leading minus
-    s = s.replace(/,/g, '.');
-    // Remove spaces
-    s = s.replace(/\s+/g, '');
+    s = s.replace(/\u2212|\u2012|\u2013|\u2014/g, '-'); // fancy minus to hyphen
+    s = s.replace(/,/g, '.').replace(/\s+/g, '');
     const n = Number(s);
     return Number.isFinite(n) ? n : NaN;
   }
@@ -113,7 +142,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   els.clear.addEventListener('click', clearAll);
 
   function buildEonetURL(p) {
-    // EONET bbox: minLon,maxLat,maxLon,minLat
+    // EONET bbox order: minLon,maxLat,maxLon,minLat
     const bbox = [p.minLon, p.maxLat, p.maxLon, p.minLat].join(',');
     const u = new URL('https://eonet.gsfc.nasa.gov/api/v3/events/geojson');
     u.searchParams.set('category', 'wildfires');
@@ -160,15 +189,15 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       }
     });
 
+    // fit to markers
     const pts = [];
     wfLayer.eachLayer(l => { if(l.getLatLng) pts.push(l.getLatLng()); });
-    if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.2));
+    if (pts.length) window.map.fitBounds(L.latLngBounds(pts).pad(0.2));
   }
 
   els.form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Parse & validate
     const minLon = parseDec(els.minLon.value);
     const minLat = parseDec(els.minLat.value);
     const maxLon = parseDec(els.maxLon.value);
@@ -212,6 +241,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     }
   });
 
-  // Start clean
+  // start clean
   clearAll();
 })();
