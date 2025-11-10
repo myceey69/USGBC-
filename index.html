@@ -19,7 +19,6 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""
   />
-
 </head>
 <body>
 <div class="app">
@@ -44,9 +43,10 @@
       <a href="#monitoring">Monitoring & Feedback</a>
       <a href="#tools">Tools & Checklists</a>
       <a href="#mapSection">Map</a>
+      <!-- new: quick link to wildfire panel -->
+      <a href="#wildfire-tools">Wildfires</a>
     </div>
   </nav>
-
   <main>
     <section class="hero" id="overview">
       <div>
@@ -85,7 +85,6 @@
         </div>
       </div>
     </section>
-
     <section class="panel accordion" id="risk">
       <summary><h3>Risk & Damage: What to Prioritize First</h3></summary>
       <div class="meta">Based on the plan’s geospatial damage & hazard analysis (pp. 8–9).</div>
@@ -107,7 +106,6 @@
         <p class="note">Environmental context summarized from p.7 of the plan.<sup class="small">[Source]</sup></p>
       </details>
     </section>
-
     <section class="panel accordion" id="hubs">
       <summary><h3>Community Recovery Hubs & Key Facilities</h3></summary>
       <div class="meta">Hubs, health providers, schools, parks, water providers, and fire stations (pp. 10–12).</div>
@@ -130,7 +128,6 @@
         </ul>
       </details>
     </section>
-
     <section class="panel accordion" id="water">
       <summary><h3>Integrated Water Resilience</h3></summary>
       <div class="meta">Mandatory site-level harvesting, distributed storage, greywater, neighborhood networks, and monitoring (pp. 12–13).</div>
@@ -178,7 +175,6 @@
         </div>
       </details>
     </section>
-
     <section class="panel accordion" id="mobility">
       <summary><h3>Mobility, Transit & Emergency Functions</h3></summary>
       <div class="meta">Altadena/Lake & Fair Oaks/Altadena nodes, frequencies, equity metrics, and emergency roles (pp. 14–15).</div>
@@ -191,7 +187,6 @@
         </ul>
       </details>
     </section>
-
     <section class="panel accordion" id="green">
       <summary><h3>Green & Resilient Rebuilding Guidelines</h3></summary>
       <div class="meta">Energy efficiency, renewables + storage, fire-resistant materials, stormwater, equity, urban forestry (pp. 16–17).</div>
@@ -206,7 +201,6 @@
         </ul>
       </details>
     </section>
-
     <section class="panel accordion" id="equity">
       <summary><h3>Equity-Centered Resource Allocation & Housing</h3></summary>
       <div class="meta">Prioritize low-income, seniors, renters; transparent criteria; anti-displacement measures (pp. 22–23).</div>
@@ -219,7 +213,6 @@
         </ul>
       </details>
     </section>
-
     <section class="panel accordion" id="monitoring">
       <summary><h3>Monitoring, Feedback & Adaptive Implementation</h3></summary>
       <div class="meta">Real-time dashboards, community reporting loops, and agile governance (pp. 20–21).</div>
@@ -232,7 +225,6 @@
         </ul>
       </details>
     </section>
-
     <section class="panel" id="tools">
       <h3>Home-Hardening & Safety Tools</h3>
       <div class="grid cols-2">
@@ -256,19 +248,78 @@
       </div>
     </section>
 
+    <!-- NEW: Wildfire query panel (EONET) -->
+    <section class="panel" id="wildfire-tools">
+      <h3>Wildfire Events (NASA EONET)</h3>
+      <p class="small">Query recent wildfire events for a selected area and time window. Use “Map Bounds” to grab the current map view.</p>
+
+      <form id="wf-form" class="wf-form">
+        <fieldset class="wf-fieldset">
+          <legend>Area (BBox)</legend>
+          <div class="wf-row">
+            <label>Min Lon <input type="number" step="0.01" id="wfMinLon" value="-124.48" required></label>
+            <label>Min Lat <input type="number" step="0.01" id="wfMinLat" value="32.53" required></label>
+            <label>Max Lon <input type="number" step="0.01" id="wfMaxLon" value="-114.13" required></label>
+            <label>Max Lat <input type="number" step="0.01" id="wfMaxLat" value="42.00" required></label>
+          </div>
+          <div class="wf-actions">
+            <button type="button" id="wfUseCA" class="btn">Use California</button>
+            <button type="button" id="wfUseMap" class="btn" title="Use current Leaflet map bounds">Use Map Bounds</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="wf-fieldset">
+          <legend>Time window</legend>
+          <div class="wf-row">
+            <label>Days look-back <input type="number" min="1" id="wfDays" value="30"></label>
+            <span class="wf-or" aria-hidden="true">or</span>
+            <label>Start <input type="date" id="wfStart"></label>
+            <label>End <input type="date" id="wfEnd"></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="wf-fieldset">
+          <legend>Filters</legend>
+          <div class="wf-row">
+            <label>Status
+              <select id="wfStatus">
+                <option value="open" selected>Open</option>
+                <option value="closed">Closed</option>
+                <option value="all">All</option>
+              </select>
+            </label>
+            <label>Limit <input type="number" id="wfLimit" value="100" min="1" max="500"></label>
+          </div>
+        </fieldset>
+
+        <div class="wf-actions">
+          <button type="submit" id="wfRun" class="btn brand">Fetch Wildfires</button>
+          <button type="button" id="wfClear" class="btn">Clear</button>
+        </div>
+      </form>
+
+      <details class="wf-cli">
+        <summary>Copy CLI equivalent</summary>
+        <code id="wfCli">python3 eonet_fetch_events.py …</code>
+      </details>
+
+      <div class="wf-results">
+        <div id="wfSummary" class="wf-summary" role="status" aria-live="polite"></div>
+        <ol id="wfList" class="wf-list"></ol>
+      </div>
+    </section>
+
     <section class="panel" id="mapSection">
       <h3>Map: Recovery Hubs & Anchors</h3>
       <p class="small">Starter map centered on Altadena. Replace placeholder points with exact coordinates as needed.</p>
       <div id="map" role="region" aria-label="Map of recovery hubs"></div>
     </section>
-
     <footer>
       <div>Built from your Altadena Fire Rebuild plan (sections: demographics, risk, hubs, water, transit, green rebuild, equity, monitoring). Pages referenced inline above. <strong>Source:</strong> your uploaded PDF.</div>
       <div style="margin-top:6px" class="small">Accessibility: keyboard navigation, focusable controls, reduced motion by OS setting, print stylesheet included.</div>
     </footer>
   </main>
 </div>
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
   crossorigin=""></script>
