@@ -23,13 +23,14 @@ const obs = new IntersectionObserver((entries)=>{
 sections.forEach(s=>s && obs.observe(s));
 
 /* ---------- Expand/Collapse ---------- */
-const expandAllBtn = document.getElementById('expandAll');
-const collapseAllBtn = document.getElementById('collapseAll');
-function setAll(open){ document.querySelectorAll('details').forEach(d=>d.open = open); }
-expandAllBtn?.addEventListener('click', ()=>setAll(true));
-collapseAllBtn?.addEventListener('click', ()=>setAll(false));
+document.getElementById('expandAll')?.addEventListener('click', ()=> {
+  document.querySelectorAll('details').forEach(d=>d.open = true);
+});
+document.getElementById('collapseAll')?.addEventListener('click', ()=> {
+  document.querySelectorAll('details').forEach(d=>d.open = false);
+});
 
-/* ---------- Checklist ---------- */
+/* ---------- Checklist (unchanged) ---------- */
 const checklistItems = [
   "Non-combustible exterior cladding (Class A or metal/cementitious)",
   "Tempered glass windows; ember-resistant attic/soffit vents",
@@ -54,13 +55,12 @@ function renderChecklist(){
     wrap.innerHTML = `<input id="${id}" type="checkbox" /> <span>${t}</span>`;
     checklist.appendChild(wrap);
   });
-  checklist.addEventListener('change', updateProgress);
-  updateProgress();
-}
-function updateProgress(){
-  const checks = checklist.querySelectorAll('input[type=checkbox]');
-  const done = Array.from(checks).filter(c=>c.checked).length;
-  progress.textContent = `${done} of ${checks.length} completed`;
+  checklist.addEventListener('change', ()=>{
+    const checks = checklist.querySelectorAll('input[type=checkbox]');
+    const done = Array.from(checks).filter(c=>c.checked).length;
+    progress.textContent = `${done} of ${checks.length} completed`;
+  });
+  progress.textContent = `0 of ${checklistItems.length} completed`;
 }
 renderChecklist();
 
@@ -69,27 +69,9 @@ const map = L.map('map', { scrollWheelZoom:false }).setView([34.19, -118.13], 12
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19, attribution: '&copy; OpenStreetMap'
 }).addTo(map);
-const hubs = [
-  { name: "Recovery Hub — placeholder", coords:[34.1705, -118.1610] },
-  { name: "Disaster Recovery Center — placeholder", coords:[34.1479, -118.1445] },
-];
-hubs.forEach(h=> L.marker(h.coords).addTo(map).bindPopup(`<strong>${h.name}</strong>`));
-
-/* ---------- Smooth hash links ---------- */
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', e=>{
-    const id = a.getAttribute('href');
-    const el = document.querySelector(id);
-    if(el){
-      e.preventDefault();
-      el.scrollIntoView({ behavior:'smooth', block:'start' });
-      history.replaceState(null, "", id);
-    }
-  })
-});
 
 /* ====================================================================== */
-/*                      WILDFIRE PANEL (UPDATED)                          */
+/*                      WILDFIRE PANEL (CLEAN)                            */
 /* ====================================================================== */
 
 (function () {
@@ -105,33 +87,31 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     run:    document.getElementById('wfRun'),
     clear:  document.getElementById('wfClear'),
     summary:document.getElementById('wfSummary'),
-    list:   document.getElementById('wfList'),
-    cli:    document.getElementById('wfCli'),
     tbody:  document.getElementById('wfTbody')
   };
   if(!els.form) return;
 
-  // marker layer
   const wfLayer = L.layerGroup().addTo(map);
   const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 
   function clearAll() {
-    // set numeric to 0, dates to blank
-    ['minLon','minLat','maxLon','maxLat','days'].forEach(id => els[id].value = 0);
-    els.start.value = '';
-    els.end.value = '';
-    // clear UI pieces
+    // Reset inputs to zero/blank
+    els.minLon.value = 0;
+    els.minLat.value = 0;
+    els.maxLon.value = 0;
+    els.maxLat.value = 0;
+    els.days.value   = 0;
+    els.start.value  = '';
+    els.end.value    = '';
+    // Clear UI
     els.summary.textContent = 'No data yet.';
-    els.list.innerHTML = '';
-    els.cli.textContent = 'python3 eonet_fetch_events.py …';
     els.tbody.innerHTML = '';
     wfLayer.clearLayers();
   }
   els.clear.addEventListener('click', clearAll);
 
-  // Build EONET URL (v3) with bbox + either days or start/end
   function buildEonetURL(p) {
-    // EONET bbox quirk: minLon,maxLat,maxLon,minLat
+    // EONET bbox order: minLon,maxLat,maxLon,minLat
     const bbox = [p.minLon, p.maxLat, p.maxLon, p.minLat].join(',');
     const u = new URL('https://eonet.gsfc.nasa.gov/api/v3/events/geojson');
     u.searchParams.set('category', 'wildfires');
@@ -145,22 +125,8 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     return u.toString();
   }
 
-  // CLI mirror
-  function buildCli(p) {
-    const parts = [
-      'python3 eonet_fetch_events.py',
-      `--bbox ${p.minLon} ${p.minLat} ${p.maxLon} ${p.maxLat}`
-    ];
-    if (p.days && p.days > 0) parts.push(`--days ${p.days}`);
-    if (p.start) parts.push(`--start ${p.start}`);
-    if (p.end)   parts.push(`--end ${p.end}`);
-    parts.push('--out eonet_query');
-    return parts.join(' ');
-  }
-
   function renderTable(features) {
     els.tbody.innerHTML = '';
-    els.list.innerHTML = ''; // keep list hidden but synced
     wfLayer.clearLayers();
 
     features.forEach((f, i) => {
@@ -192,7 +158,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
       }
     });
 
-    // fit map
+    // Fit map to markers, if any
     const pts = [];
     wfLayer.eachLayer(l => { if(l.getLatLng) pts.push(l.getLatLng()); });
     if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.2));
@@ -211,7 +177,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
       end:    (els.end.value || '').trim()
     };
 
-    els.cli.textContent = buildCli(p);
     els.summary.textContent = 'Loading…';
 
     try {
@@ -230,6 +195,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     }
   });
 
-  // initialize with all-zero (empty) state
+  // start with a clean state
   clearAll();
 })();
