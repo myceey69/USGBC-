@@ -1,36 +1,29 @@
+/* ---------- Utility ---------- */
+const $ = (id) => document.getElementById(id);
+
 /* ---------- Search / TOC ---------- */
-const search = document.querySelector('#search');
+const search = $('#search');
 const tocLinks = [...document.querySelectorAll('#toc a')];
 const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
-function filterTOC(q){
-  const t = q.trim().toLowerCase();
-  tocLinks.forEach(a=>{
-    const match = a.textContent.toLowerCase().includes(t);
-    a.style.display = match ? 'block' : 'none';
-  });
-}
-search?.addEventListener('input', e=>filterTOC(e.target.value));
+search?.addEventListener('input', e=>{
+  const t = e.target.value.trim().toLowerCase();
+  tocLinks.forEach(a => a.style.display = a.textContent.toLowerCase().includes(t) ? 'block' : 'none');
+});
 const obs = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     const id = '#' + e.target.id;
     const link = tocLinks.find(a => a.getAttribute('href')===id);
-    if(e.isIntersecting){
-      tocLinks.forEach(x=>x.classList.remove('active'));
-      link?.classList.add('active');
-    }
+    if(e.isIntersecting){ tocLinks.forEach(x=>x.classList.remove('active')); link?.classList.add('active'); }
   });
 },{ rootMargin: "-30% 0px -60% 0px", threshold: 0.01 });
 sections.forEach(s=>s && obs.observe(s));
 
 /* ---------- Expand/Collapse ---------- */
-document.getElementById('expandAll')?.addEventListener('click', ()=> {
-  document.querySelectorAll('details').forEach(d=>d.open = true);
-});
-document.getElementById('collapseAll')?.addEventListener('click', ()=> {
-  document.querySelectorAll('details').forEach(d=>d.open = false);
-});
+$('#expandAll')?.addEventListener('click', ()=> document.querySelectorAll('details').forEach(d=>d.open=true));
+$('#collapseAll')?.addEventListener('click', ()=> document.querySelectorAll('details').forEach(d=>d.open=false));
+$('#printBtn')?.addEventListener('click', ()=> window.print());
 
-/* ---------- Checklist (unchanged) ---------- */
+/* ---------- Checklist ---------- */
 const checklistItems = [
   "Non-combustible exterior cladding (Class A or metal/cementitious)",
   "Tempered glass windows; ember-resistant attic/soffit vents",
@@ -43,9 +36,8 @@ const checklistItems = [
   "Solar + battery storage for outage resilience",
   "Rainwater tank with firefighter outlet (NST or local thread)"
 ];
-const checklist = document.getElementById('checklist');
-const progress = document.getElementById('progress');
-function renderChecklist(){
+(function renderChecklist(){
+  const checklist = $('#checklist'); const progress = $('#progress');
   if(!checklist) return;
   checklist.innerHTML = "";
   checklistItems.forEach((t,i)=>{
@@ -61,8 +53,7 @@ function renderChecklist(){
     progress.textContent = `${done} of ${checks.length} completed`;
   });
   progress.textContent = `0 of ${checklistItems.length} completed`;
-}
-renderChecklist();
+})();
 
 /* ---------- Map ---------- */
 const map = L.map('map', { scrollWheelZoom:false }).setView([34.19, -118.13], 12);
@@ -71,39 +62,50 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 /* ====================================================================== */
-/*                      WILDFIRE PANEL (CLEAN)                            */
+/*                      WILDFIRE PANEL (locale-safe)                      */
 /* ====================================================================== */
 
 (function () {
   const els = {
-    form:   document.getElementById('wf-form'),
-    minLon: document.getElementById('wfMinLon'),
-    minLat: document.getElementById('wfMinLat'),
-    maxLon: document.getElementById('wfMaxLon'),
-    maxLat: document.getElementById('wfMaxLat'),
-    days:   document.getElementById('wfDays'),
-    start:  document.getElementById('wfStart'),
-    end:    document.getElementById('wfEnd'),
-    run:    document.getElementById('wfRun'),
-    clear:  document.getElementById('wfClear'),
-    summary:document.getElementById('wfSummary'),
-    tbody:  document.getElementById('wfTbody')
+    form:   $('#wf-form'),
+    minLon: $('#wfMinLon'),
+    minLat: $('#wfMinLat'),
+    maxLon: $('#wfMaxLon'),
+    maxLat: $('#wfMaxLat'),
+    days:   $('#wfDays'),
+    start:  $('#wfStart'),
+    end:    $('#wfEnd'),
+    run:    $('#wfRun'),
+    clear:  $('#wfClear'),
+    summary:$('#wfSummary'),
+    tbody:  $('#wfTbody')
   };
   if(!els.form) return;
 
   const wfLayer = L.layerGroup().addTo(map);
-  const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+
+  // Normalize any user-entered number: handles commas and fancy minus
+  function parseDec(v){
+    if (v == null) return NaN;
+    let s = String(v).trim();
+    // Replace Unicode minus/dashes with simple hyphen
+    s = s.replace(/\u2212|\u2012|\u2013|\u2014/g, '-');
+    // Replace comma decimal with dot, but keep leading minus
+    s = s.replace(/,/g, '.');
+    // Remove spaces
+    s = s.replace(/\s+/g, '');
+    const n = Number(s);
+    return Number.isFinite(n) ? n : NaN;
+  }
 
   function clearAll() {
-    // Reset inputs to zero/blank
-    els.minLon.value = 0;
-    els.minLat.value = 0;
-    els.maxLon.value = 0;
-    els.maxLat.value = 0;
-    els.days.value   = 0;
+    els.minLon.value = '0';
+    els.minLat.value = '0';
+    els.maxLon.value = '0';
+    els.maxLat.value = '0';
+    els.days.value   = '0';
     els.start.value  = '';
     els.end.value    = '';
-    // Clear UI
     els.summary.textContent = 'No data yet.';
     els.tbody.innerHTML = '';
     wfLayer.clearLayers();
@@ -111,13 +113,13 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   els.clear.addEventListener('click', clearAll);
 
   function buildEonetURL(p) {
-    // EONET bbox order: minLon,maxLat,maxLon,minLat
+    // EONET bbox: minLon,maxLat,maxLon,minLat
     const bbox = [p.minLon, p.maxLat, p.maxLon, p.minLat].join(',');
     const u = new URL('https://eonet.gsfc.nasa.gov/api/v3/events/geojson');
     u.searchParams.set('category', 'wildfires');
     u.searchParams.set('bbox', bbox);
     if (p.days && p.days > 0) {
-      u.searchParams.set('days', p.days);
+      u.searchParams.set('days', String(p.days));
     } else {
       if (p.start) u.searchParams.set('start', p.start);
       if (p.end)   u.searchParams.set('end', p.end);
@@ -158,7 +160,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       }
     });
 
-    // Fit map to markers, if any
     const pts = [];
     wfLayer.eachLayer(l => { if(l.getLatLng) pts.push(l.getLatLng()); });
     if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.2));
@@ -167,12 +168,28 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   els.form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const p = {
-      minLon: clamp(parseFloat(els.minLon.value || 0), -180, 180),
-      minLat: clamp(parseFloat(els.minLat.value || 0), -90, 90),
-      maxLon: clamp(parseFloat(els.maxLon.value || 0), -180, 180),
-      maxLat: clamp(parseFloat(els.maxLat.value || 0), -90, 90),
-      days:   parseInt(els.days.value || '0', 10),
+    // Parse & validate
+    const minLon = parseDec(els.minLon.value);
+    const minLat = parseDec(els.minLat.value);
+    const maxLon = parseDec(els.maxLon.value);
+    const maxLat = parseDec(els.maxLat.value);
+    const days   = parseInt(String(parseDec(els.days.value) || 0), 10);
+
+    const firstBad =
+      [ [els.minLon,minLon], [els.minLat,minLat], [els.maxLon,maxLon], [els.maxLat,maxLat], [els.days, days] ]
+      .find(([el,val]) => !Number.isFinite(val));
+    if (firstBad) {
+      els.summary.textContent = 'Please enter valid numbers (decimals with dot or comma are OK).';
+      firstBad[0].focus();
+      return;
+    }
+
+    const params = {
+      minLon: Math.min(Math.max(minLon, -180), 180),
+      minLat: Math.min(Math.max(minLat,  -90),  90),
+      maxLon: Math.min(Math.max(maxLon, -180), 180),
+      maxLat: Math.min(Math.max(maxLat,  -90),  90),
+      days:   Math.max(days, 0),
       start:  (els.start.value || '').trim(),
       end:    (els.end.value || '').trim()
     };
@@ -180,7 +197,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     els.summary.textContent = 'Loading…';
 
     try {
-      const url = buildEonetURL(p);
+      const url = buildEonetURL(params);
       const resp = await fetch(url);
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const data = await resp.json();
@@ -195,6 +212,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     }
   });
 
-  // start with a clean state
+  // Start clean
   clearAll();
 })();
