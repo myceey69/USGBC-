@@ -1,14 +1,11 @@
 :root{
   --bg:#0b0f14;
   --panel:#111825;
-  --muted:#8aa0b7;
   --text:#e6eef7;
   --brand:#68d391;
   --brand-2:#60a5fa;
-  --accent:#fcd34d;
-  --danger:#f87171;
-  --line:#2c4670;            /* ← requested border color */
-  --radius:20px;             /* ← rounder everywhere */
+  --line:#2c4670;         /* requested border color */
+  --radius:20px;          /* round corners everywhere */
   --shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
@@ -35,7 +32,6 @@ nav .brand{ display:flex; align-items:center; gap:10px; margin-bottom:18px; }
   background:linear-gradient(135deg,var(--brand),var(--brand-2));
   box-shadow:inset 0 0 12px rgba(255,255,255,.25);
 }
-.brand h1{ font-size:1.05rem; margin:0; }
 .search{ position:relative; margin:12px 0 16px; }
 .search input{
   width:100%; background:#0b1422; border:1px solid var(--line); color:var(--text);
@@ -70,12 +66,8 @@ h3{ font-size:1.25rem; margin:0 0 8px; }
   display:inline-flex; align-items:center; gap:8px; padding:6px 10px;
   border-radius:999px; border:1px solid var(--line); background:#0b1422; color:#cfe3ff; font-size:.85rem;
 }
-.kpis{ display:flex; gap:12px; flex-wrap:wrap; }
-.kpis .k{
-  padding:10px 12px; border-radius:14px; background:#0c1523; border:1px solid var(--line);
-}
 
-/* Buttons / inputs rounded */
+/* Buttons / inputs */
 .btn{
   appearance:none; border:none; border-radius:14px; padding:10px 14px; cursor:pointer; font-weight:600;
   background: linear-gradient(180deg, #1e2c43, #152235);
@@ -83,17 +75,7 @@ h3{ font-size:1.25rem; margin:0 0 8px; }
 }
 .btn.brand{ background:linear-gradient(180deg,#2a5,#184); border-color:var(--line); }
 .btn:hover{ filter:brightness(1.08); }
-input, select{
-  border-radius:12px;
-}
-
-/* Accordions */
-.accordion details{
-  background:#0c1422; border:1px solid var(--line); border-radius:14px; padding:12px 14px;
-}
-.accordion details+details{ margin-top:10px; }
-.accordion summary{ cursor:pointer; list-style:none; }
-.accordion summary::-webkit-details-marker{ display:none; }
+input, select{ border-radius:12px; }
 
 /* Checklist */
 .checklist{ display:grid; gap:10px; }
@@ -101,52 +83,23 @@ input, select{
   display:flex; gap:10px; align-items:flex-start; padding:10px;
   border:1px solid var(--line); border-radius:12px; background:#0c1523;
 }
-.check-item input{ transform: translateY(4px) scale(1.2); }
-
-/* Calculator */
-.calc input, .calc select{
-  width:100%; background:#0b1422; border:1px solid var(--line); color:var(--text); padding:10px 12px; border-radius:12px; outline:none;
-}
-.calc .row{ display:grid; gap:10px; margin:8px 0; }
-@media (min-width: 800px){ .calc .row{ grid-template-columns: repeat(3, 1fr); } }
-.result{ font-weight:700; font-size:1.2rem; }
-
-/* Map */
 #map{ height:360px; border-radius:16px; border:1px solid var(--line); overflow:hidden; }
 
-/* Footer */
-footer{ margin:28px 0 12px; color:#93a9c2; font-size:.9rem; }
-
-/* Chips */
-.chips{ display:flex; gap:8px; flex-wrap:wrap; }
-.chip{ padding:6px 10px; background:#0c1523; border:1px solid var(--line); border-radius:999px; }
-
-/* Print */
-@media print{
-  nav{ display:none; }
-  .app{ grid-template-columns: 1fr; }
-  .hero{ grid-template-columns: 1fr; }
-  a[href]:after{ content:" (" attr(href) ")"; font-size:.85em; color:#678; }
-  #map{ display:none; }
-}
-
-/* ================= Wildfire panel (with your tweaks) ================== */
+/* Wildfire panel */
 #wildfire-tools .wf-form { display: grid; gap: 12px; }
 .wf-fieldset { border:1px solid var(--line); border-radius:14px; padding:12px; background:#0c1523; }
 .wf-fieldset legend { padding:0 .4rem; color:#b9cbe0; }
 .wf-row { display:grid; gap:10px; }
 @media (min-width: 800px){ .wf-row { grid-template-columns: repeat(4, 1fr); } }
 .wf-row label { display:flex; flex-direction:column; font-size:.92rem; color:#cfe3ff; }
-.wf-row input, .wf-row select {
+.wf-row input {
   background:#0b1422; border:1px solid var(--line); color:var(--text); padding:10px 12px; border-radius:12px; outline:none;
 }
 .wf-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
-.wf-cli { margin-top:8px; }
-.wf-cli code { display:block; padding:10px 12px; background:#0b111a; border:1px solid var(--line); border-radius:12px; overflow-x:auto; }
 .wf-results { margin-top:10px; }
 .wf-summary { color:#b9cbe0; margin-bottom:8px; }
 
-/* Results table (new) */
+/* Results table */
 .wf-table-wrap{
   overflow:auto;
   border:1px solid var(--line);
@@ -162,8 +115,7 @@ footer{ margin:28px 0 12px; color:#93a9c2; font-size:.9rem; }
 }
 .wf-table tr:last-child td{ border-bottom:none; }
 .wf-table tr:hover td{ background:#0b1422; }
-.wf-list{ display:none; } /* keep list hidden (we use table) */
 .wf-or { align-self:center; opacity:.7; text-align:center; }
 
-/* Round the rest by default where possible */
+/* Round everything sensible by default */
 details, input, select, code, table, .toc a, .panel, .hero, nav { border-radius: var(--radius); }
