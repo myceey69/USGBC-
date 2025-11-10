@@ -43,8 +43,10 @@
       <a href="#monitoring">Monitoring & Feedback</a>
       <a href="#tools">Tools & Checklists</a>
       <a href="#mapSection">Map</a>
+      <a href="#wildfire-tools">Wildfires</a>
     </div>
   </nav>
+
   <main>
     <section class="hero" id="overview">
       <div>
@@ -239,14 +241,14 @@
       </div>
     </section>
 
-    <!-- ADDED: Wildfire Events (self-contained; does not modify existing UI) -->
+    <!-- Wildfire Events -->
     <section class="panel" id="wildfire-tools">
       <h3>Wildfire Events</h3>
       <p class="small">Enter an area and time window. Results will appear below and on the map.</p>
 
       <form id="wf-form" class="wf-form" novalidate>
         <fieldset class="wf-fieldset">
-          <legend>Area</legend>
+          <legend><span>Area</span></legend>
           <div class="wf-row">
             <label>Min Longitude <input inputmode="decimal" type="text" id="wfMinLon" value="0"></label>
             <label>Min Latitude  <input inputmode="decimal" type="text" id="wfMinLat" value="0"></label>
@@ -256,7 +258,7 @@
         </fieldset>
 
         <fieldset class="wf-fieldset">
-          <legend>Time window</legend>
+          <legend><span>Time window</span></legend>
           <div class="wf-row">
             <label>Days look-back <input inputmode="numeric" type="text" id="wfDays" value="0"></label>
             <span class="wf-or" aria-hidden="true">or</span>
@@ -291,7 +293,7 @@
         </div>
       </div>
     </section>
-    <!-- /END Wildfire Events -->
+    <!-- /Wildfire Events -->
 
     <section class="panel" id="mapSection">
       <h3>Map: Recovery Hubs & Anchors</h3>
