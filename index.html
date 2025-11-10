@@ -4,8 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" type="text/css" href="style.css">
-  <title>Resilient Rebuilding Guide (USGBC-aligned)</title>
-  <meta name="description" content="Interactive post-fire rebuilding guide aligned with USGBC/green-resilience principles: water resilience, home hardening, hubs, equity, and monitoring." />
+  <title>Resilient Rebuilding Guide</title>
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
   <link rel="preconnect" href="https://{s}.tile.openstreetmap.org" crossorigin>
   <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"/>
@@ -32,58 +31,30 @@
     <div class="toc" id="toc">
       <div class="group">Guide</div>
       <a href="#overview">Overview</a>
-      <a href="#risk">Risk & Damage</a>
-      <a href="#hubs">Recovery Hubs</a>
-      <a href="#water">Water Resilience</a>
-      <a href="#mobility">Mobility & Transit</a>
-      <a href="#green">Green & Resilient Rebuild</a>
-      <a href="#equity">Equity & Housing</a>
-      <a href="#monitoring">Monitoring & Feedback</a>
       <a href="#tools">Tools & Checklists</a>
-      <a href="#mapSection">Map</a>
       <a href="#wildfire-tools">Wildfires</a>
+      <a href="#mapSection">Map</a>
     </div>
   </nav>
 
   <main>
     <section class="hero" id="overview">
       <div>
-        <span class="badge">USGBC-aligned • Wildfire Resilience</span>
+        <span class="badge">Wildfire Resilience</span>
         <h2>Resilient, Equitable, Community-Oriented Rebuilding</h2>
-        <p>This interactive guide distills the recovery strategy into actionable steps.</p>
         <div class="actions">
           <button class="btn brand" onclick="window.print()">Print / Save as PDF</button>
           <button class="btn" id="expandAll">Expand all</button>
           <button class="btn" id="collapseAll">Collapse all</button>
         </div>
-        <div class="kpis" style="margin-top:10px">
-          <div class="k"><div class="small">Minority pop.</div><strong>~72%</strong></div>
-          <div class="k"><div class="small">Seniors 65+</div><strong>~16%</strong></div>
-          <div class="k"><div class="small">Pre-1970 homes</div><strong>~86%</strong></div>
-          <div class="k"><div class="small">Tree canopy</div><strong>~12%</strong></div>
-        </div>
       </div>
-
       <div class="panel">
         <h3>Quick Links</h3>
         <div class="chips">
           <a class="chip" href="#tools">Home-Hardening Checklist</a>
-          <a class="chip" href="#water">Water Storage Sizing</a>
-          <a class="chip" href="#equity">Equity & Housing Aid</a>
-          <a class="chip" href="#monitoring">Monitoring Dashboard Ideas</a>
+          <a class="chip" href="#wildfire-tools">Wildfire Events</a>
         </div>
       </div>
-    </section>
-
-    <section class="panel accordion" id="risk">
-      <summary><h3>Risk & Damage: What to Prioritize First</h3></summary>
-      <details open>
-        <summary><strong>High-risk areas & actions</strong></summary>
-        <ul>
-          <li>Focus enhanced codes, defensible space, and community drills in WUI foothills.</li>
-          <li>Prioritize older wood-frame homes with limited defensible space.</li>
-        </ul>
-      </details>
     </section>
 
     <section class="panel" id="tools">
@@ -130,14 +101,14 @@
       </div>
     </section>
 
-    <!-- Wildfire query panel (updated per your requests) -->
+    <!-- Wildfire query panel (clean UI) -->
     <section class="panel" id="wildfire-tools">
       <h3>Wildfire Events (NASA EONET)</h3>
-      <p class="small">Enter a bounding box and time window; results will appear below and on the map.</p>
+      <p class="small">Enter an area and time window. Results will appear below and on the map.</p>
 
       <form id="wf-form" class="wf-form">
         <fieldset class="wf-fieldset">
-          <legend>Area (BBox)</legend>
+          <legend>Area</legend>
           <div class="wf-row">
             <label>Min Longitude <input type="number" step="0.01" id="wfMinLon" value="0" required></label>
             <label>Min Latitude  <input type="number" step="0.01" id="wfMinLat" value="0" required></label>
@@ -162,15 +133,9 @@
         </div>
       </form>
 
-      <details class="wf-cli">
-        <summary>Copy CLI equivalent</summary>
-        <code id="wfCli">python3 eonet_fetch_events.py …</code>
-      </details>
-
       <div class="wf-results">
         <div id="wfSummary" class="wf-summary" role="status" aria-live="polite">No data yet.</div>
 
-        <!-- NEW: explicit results table -->
         <div class="wf-table-wrap">
           <table class="wf-table" id="wfTable">
             <thead>
@@ -184,14 +149,9 @@
                 <th>Sources</th>
               </tr>
             </thead>
-            <tbody id="wfTbody">
-              <!-- rows injected by JS -->
-            </tbody>
+            <tbody id="wfTbody"></tbody>
           </table>
         </div>
-
-        <!-- list remains for accessibility/screen readers -->
-        <ol id="wfList" class="wf-list" hidden></ol>
       </div>
     </section>
 
