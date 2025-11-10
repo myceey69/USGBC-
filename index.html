@@ -245,6 +245,61 @@
         </div>
       </div>
     </section>
+
+    <!-- ▼▼ Added: Wildfire Events widget (ONLY addition) ▼▼ -->
+    <section class="panel" id="wildfire-tools">
+      <h3>Wildfire Events</h3>
+      <p class="small">Enter an area and time window. Results will appear below and on the map.</p>
+
+      <form id="wf-form" class="wf-form" novalidate>
+        <fieldset class="wf-fieldset">
+          <legend><span>Area</span></legend>
+          <div class="wf-row">
+            <label>Min Longitude <input inputmode="decimal" type="text" id="wfMinLon" value="0"></label>
+            <label>Min Latitude  <input inputmode="decimal" type="text" id="wfMinLat" value="0"></label>
+            <label>Max Longitude <input inputmode="decimal" type="text" id="wfMaxLon" value="0"></label>
+            <label>Max Latitude  <input inputmode="decimal" type="text" id="wfMaxLat" value="0"></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="wf-fieldset">
+          <legend><span>Time window</span></legend>
+          <div class="wf-row">
+            <label>Days look-back <input inputmode="numeric" type="text" id="wfDays" value="0"></label>
+            <span class="wf-or" aria-hidden="true">or</span>
+            <label>Start <input type="date" id="wfStart"></label>
+            <label>End <input type="date" id="wfEnd"></label>
+          </div>
+        </fieldset>
+
+        <div class="wf-actions">
+          <button type="submit" id="wfRun" class="btn brand">Fetch Wildfires</button>
+          <button type="button" id="wfClear" class="btn">Clear</button>
+        </div>
+      </form>
+
+      <div class="wf-results">
+        <div id="wfSummary" class="wf-summary" role="status" aria-live="polite">No data yet.</div>
+        <div class="wf-table-wrap">
+          <table class="wf-table" id="wfTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Status</th>
+                <th>Sources</th>
+              </tr>
+            </thead>
+            <tbody id="wfTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <!-- ▲▲ Added: Wildfire Events widget ▲▲ -->
+
     <section class="panel" id="mapSection">
       <h3>Map: Recovery Hubs & Anchors</h3>
       <p class="small">Starter map centered on Altadena. Replace placeholder points with exact coordinates as needed.</p>
