@@ -256,6 +256,141 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
       wfLayer.clearLayers();
     }
   });
+  
+  /* ==================== ADU Explorer ==================== */
+const adus = [
+  {
+    name: "Fire-Resistant Modular",
+    cost: "$$",
+    energy: "A+",
+    water: "A",
+    wildfire: "High",
+    equity: "Strong",
+    desc: "Metal-frame prefab with Class A roof, solar battery, and fire-rated cladding.",
+    model: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/CesiumMan/glTF-Binary/CesiumMan.glb",
+    mapTag: "hub"
+  },
+  
+  {
+    name: "Greywater-Ready Backyard Unit",
+    cost: "$",
+    energy: "B+",
+    water: "A+",
+    wildfire: "Medium",
+    equity: "Strong",
+    desc: "Simple stick-built ADU with rainwater and greywater reuse integration.",
+    model: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
+    mapTag: "water"
+  },
+  
+  {
+    name: "Solar Micro-ADU",
+    cost: "$$$",
+    energy: "A++",
+    water: "B",
+    wildfire: "High",
+    equity: "Moderate",
+    desc: "Off-grid capable micro-unit ideal for community hubs or senior housing.",
+    model:"https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+    mapTag: "solar"
+  }
+];
+
+const aduGrid = document.getElementById('aduGrid');
+const aduViewer = document.getElementById('aduViewer');
+const aduModel = document.getElementById('aduModel');
+const aduTitle = document.getElementById('aduTitle');
+const aduDesc = document.getElementById('aduDesc');
+const aduClose = document.getElementById('aduClose');
+
+adus.forEach(a => {
+  const card = document.createElement('div');
+  card.className = 'adu-card';
+  card.innerHTML = `
+    <h4>${a.name}</h4>
+    <p class="small">${a.desc}</p>
+    <ul class="metrics">
+      <li><b>Energy:</b> ${a.energy}</li>
+      <li><b>Water:</b> ${a.water}</li>
+      <li><b>Wildfire safety:</b> ${a.wildfire}</li>
+      <li><b>Equity:</b> ${a.equity}</li>
+      <li><b>Cost:</b> ${a.cost}</li>
+    </ul>`;
+  card.addEventListener('click', () => showADU(a));
+  aduGrid.appendChild(card);
+});
+
+function showADU(a) {
+  aduViewer.hidden = false;
+  aduTitle.textContent = a.name;
+  aduDesc.textContent = a.desc;
+  aduModel.src = a.model;
+
+  // Optionally highlight on the map
+  if (window.map && a.mapTag) {
+    map.eachLayer(l => {
+      if (l.getPopup && l.getPopup().getContent().includes(a.mapTag)) {
+        l.openPopup();
+      }
+    });
+  }
+}
+
+aduClose.addEventListener('click', () => {
+  aduViewer.hidden = true;
+  aduModel.src = '';
+});
+
+/* === Hotspots for ADU models (add below your ADU Explorer code) === */
+adus[0].hotspots = [
+  {label:"Solar roof (Class A)", pos:"0 0 1.55", normal:"0 0 -1"},
+  {label:"Ember-safe cladding",  pos:"-1.6 0 0.9", normal:"1 0 0"}
+];
+adus[1].hotspots = [
+  {label:"Rain barrel",          pos:"-1.4 -0.9 0.9", normal:"1 0 0"},
+  {label:"Greywater reuse",      pos:"0 0 0.1", normal:"0 0 1"}
+];
+adus[2].hotspots = [
+  {label:"Solar array",          pos:"0 -0.1 1.1", normal:"0 0 -1"},
+  {label:"Battery pack",         pos:"1.2 0 0.5", normal:"-1 0 0"}
+];
+
+function clearHotspots() {
+  // remove previous hotspots
+  [...aduModel.querySelectorAll('button[slot^="hotspot"]')].forEach(b=>b.remove());
+}
+
+function addHotspots(hs=[]) {
+  hs.forEach((h, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'hotspot';
+    btn.setAttribute('slot', `hotspot-${idx}`);
+    btn.setAttribute('data-position', h.pos);   // "x y z"
+    btn.setAttribute('data-normal', h.normal);  // "nx ny nz"
+    btn.textContent = h.label;
+    aduModel.appendChild(btn);
+  });
+}
+
+// augment showADU to render hotspots
+const _origShowADU = showADU;
+showADU = function(a){
+  aduViewer.hidden = false;
+  aduTitle.textContent = a.name;
+  aduDesc.textContent = a.desc;
+  aduModel.src = a.model;
+  clearHotspots();
+  addHotspots(a.hotspots || []);
+
+  if (window.map && a.mapTag) {
+    map.eachLayer(l => {
+      if (l.getPopup && l.getPopup().getContent().includes(a.mapTag)) l.openPopup();
+    });
+  }
+};
+
+
+
 
   clearAll();
 })();

@@ -130,3 +130,70 @@ footer{ margin:28px 0 12px; color:#93a9c2; font-size:.9rem; }
 }
 #wildfire-tools .wf-table tr:last-child td{ border-bottom:none; }
 #wildfire-tools .wf-table tr:hover td{ background:#0b1422; }
+
+
+/* ==== ADU Explorer ==== */
+#adu .adu-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 12px;
+}
+@media (min-width: 900px) {
+  #adu .adu-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.adu-card {
+  background: #0c1523;
+  border: 1px solid #1a2943;
+  border-radius: 16px;
+  padding: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s;
+}
+.adu-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--brand);
+}
+.adu-card h4 {
+  margin: 0 0 6px;
+}
+.adu-card .metrics {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+.adu-card .metrics li {
+  font-size: 0.9rem;
+  color: #cfe3ff;
+}
+
+.adu-viewer {
+  margin-top: 22px;
+  border: 1px solid #1a2943;
+  border-radius: 16px;
+  background: #0c1523;
+  padding: 14px;
+  text-align: center;
+}
+#aduModel {
+  width: 100%;
+  height: 420px;
+  border-radius: 12px;
+  background: #000;
+}
+#aduClose {
+  margin-top: 10px;
+}
+
+/* model-viewer hotspots */
+#adu .hotspot {
+  background: rgba(20, 180, 120, 0.9);
+  color: #0a121e;
+  border: none;
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+#adu .hotspot:hover { filter: brightness(1.05); }
