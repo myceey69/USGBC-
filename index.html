@@ -22,10 +22,12 @@
 </head>
 <body>
 <div class="app">
-  <nav>
+  <button class="show-sidebar" id="showSidebar">☰ Menu</button>
+  <nav id="sidebar">
     <div class="brand">
       <div class="logo" aria-hidden="true"></div>
       <h1>Rebuilding Guide</h1>
+      <button id="hideSidebar" class="hide-btn" title="Hide sidebar">×</button>
     </div>
     <div class="search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -54,6 +56,7 @@
     <section class="hero" id="overview">
       <div>
         <span class="badge">USGBC-aligned • Wildfire Resilience</span>
+		<br>
         <h2>Resilient, Equitable, Community-Oriented Rebuilding</h2>
         <p>
           This interactive guide distills the recovery strategy into actionable steps:
@@ -337,6 +340,31 @@
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
   crossorigin=""></script>
 <script src="script.js"></script>
-</body>
-</html>
+  <script>
+    // Toggle sidebar visibility
+    const hideBtn = document.getElementById('hideSidebar');
+    const showBtn = document.getElementById('showSidebar');
+    const app = document.querySelector('.app');
+    const sidebar = document.getElementById('sidebar');
 
+    // Hide sidebar
+    hideBtn.addEventListener('click', () => {
+      app.classList.add('sidebar-hidden');
+      // Save state in localStorage
+      localStorage.setItem('sidebarHidden', 'true');
+    });
+
+    // Show sidebar
+    showBtn.addEventListener('click', () => {
+      app.classList.remove('sidebar-hidden');
+      // Remove state from localStorage
+      localStorage.removeItem('sidebarHidden');
+    });
+
+    // Check for saved state on page load
+    if (localStorage.getItem('sidebarHidden') === 'true') {
+      app.classList.add('sidebar-hidden');
+    }
+  </script>
+  </body>
+</html>
