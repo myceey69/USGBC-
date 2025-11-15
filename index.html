@@ -19,6 +19,11 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""
   />
+  <!-- Cesium ion Story Viewer dependencies -->
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.95/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.95/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/webcomponentsjs/2.4.4/webcomponents-loader.js"></script>
+  <script src="https://unpkg.com/pepjs@0.5.2/dist/pep.min.js"></script>
 </head>
 <body>
 <div class="app">
@@ -45,6 +50,7 @@
       <a href="#equity">Equity & Housing</a>
       <a href="#monitoring">Monitoring & Feedback</a>
       <div class="group">Tools</div>
+      <a href="#cesium-story">3D Story Viewer</a>
       <a href="#tools">Tools & Checklists</a>
       <a href="#adu">ADU Explorer</a>
       <a href="#wildfire-tools">Wildfire Events</a>
@@ -231,9 +237,37 @@
         </ul>
       </details>
     </section>
+
+
+     <!-- Cesium ion Story Viewer -->
+    <section class="panel" id="cesium-story">
+      <h3>3D Story Viewer</h3>
+      <p class="small">Interactive 3D visualization from Cesium ion. Use mouse/touch to navigate the scene.</p>
+      
+      <div class="cesium-container" style="height: 600px; position: relative; border-radius: 8px; overflow: hidden;">
+        <iframe 
+          src="https://ion.cesium.com/stories/viewer/?id=3b56607d-2e71-41b9-aa84-682b0be291d6" 
+          style="width: 100%; height: 100%; border: none; border-radius: 8px;"
+          title="Cesium ion 3D Story Viewer"
+          allowfullscreen>
+        </iframe>
+      </div>
+      
+      <div class="small" style="margin-top: 12px;">
+        <p><strong>Navigation tips:</strong></p>
+        <ul>
+          <li>Left click + drag to rotate the view</li>
+          <li>Right click + drag to zoom in/out</li>
+          <li>Middle click + drag to pan</li>
+          <li>Use touch gestures on mobile devices</li>
+        </ul>
+      </div>
+    </section>
     <section class="panel" id="tools">
       <h3>Home-Hardening & Safety Tools</h3>
       <div class="grid cols-2">
+
+
         <div>
           <h4>Home-Hardening Checklist</h4>
           <div id="checklist" class="checklist">
