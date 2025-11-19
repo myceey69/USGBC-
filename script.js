@@ -128,10 +128,67 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     days:   document.getElementById('wfDays'),
     start:  document.getElementById('wfStart'),
     end:    document.getElementById('wfEnd'),
+    run:    document.getElementById('wfRun'),
     clear:  document.getElementById('wfClear'),
     summary:document.getElementById('wfSummary'),
     tbody:  document.getElementById('wfTbody')
   };
+
+  // Chart.js setup
+  let wildfireChart = null;
+  const chartCtx = document.getElementById('wildfireChart');
+  
+  if (chartCtx) {
+    wildfireChart = new Chart(chartCtx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'California Wildfires Over Time',
+          data: [],
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          tension: 0.1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'California Wildfire Events Timeline'
+          },
+          legend: {
+            display: true
+          }
+        },
+        scales: {
+          x: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Date'
+            }
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Number of Wildfires'
+            },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  // Set California bounds as default
+  els.minLon.value = '-125';
+  els.minLat.value = '32';
+  els.maxLon.value = '-114';
+  els.maxLat.value = '42';
+  els.days.value = '365';
 
   const wfLayer = L.layerGroup().addTo(map);
 
@@ -146,16 +203,23 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   }
 
   function clearAll() {
-    els.minLon.value = '0';
-    els.minLat.value = '0';
-    els.maxLon.value = '0';
-    els.maxLat.value = '0';
-    els.days.value   = '0';
-    els.start.value  = '';
+    els.minLon.value = '';
+    els.minLat.value = '';
+    els.maxLon.value = '';
+    els.maxLat.value = '';
+    els.days.value   = '';
+    els.start.value    = '';
     els.end.value    = '';
     els.summary.textContent = 'No data yet.';
     els.tbody.innerHTML = '';
     wfLayer.clearLayers();
+    
+    // Clear the chart data
+    if (wildfireChart) {
+      wildfireChart.data.labels = [];
+      wildfireChart.data.datasets[0].data = [];
+      wildfireChart.update();
+    }
   }
   els.clear.addEventListener('click', clearAll);
 
@@ -171,6 +235,34 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
       if (p.end)   u.searchParams.set('end', p.end);
     }
     return u.toString();
+  }
+
+  function updateWildfireChart(features) {
+    if (!wildfireChart || !features.length) return;
+
+    // Aggregate wildfire data by date
+    const dateCounts = {};
+    
+    features.forEach(f => {
+      const p = f.properties || {};
+      if (p.date) {
+        const date = new Date(p.date).toISOString().split('T')[0]; // YYYY-MM-DD format
+        dateCounts[date] = (dateCounts[date] || 0) + 1;
+      }
+    });
+
+    // Sort dates and prepare chart data
+    const sortedDates = Object.keys(dateCounts).sort();
+    const labels = sortedDates.map(date => {
+      const d = new Date(date);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    });
+    const data = sortedDates.map(date => dateCounts[date]);
+
+    // Update chart
+    wildfireChart.data.labels = labels;
+    wildfireChart.data.datasets[0].data = data;
+    wildfireChart.update();
   }
 
   function renderTable(features) {
@@ -205,6 +297,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
         wfLayer.addLayer(m);
       }
     });
+
+    // Update chart with wildfire data
+    updateWildfireChart(features);
 
     const pts = [];
     wfLayer.eachLayer(l => { if(l.getLatLng) pts.push(l.getLatLng()); });

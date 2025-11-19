@@ -81,7 +81,6 @@
           <div class="k"><div class="small">Pre-1970 homes</div><strong>~86%</strong></div>
           <div class="k"><div class="small">Tree canopy</div><strong>~12%</strong></div>
         </div>
-        <p class="note">Numbers summarized from the report’s demographic & environmental context (pp. 4–7).<sup class="small">[Source]</sup></p>
       </div>
       <div class="panel">
         <h3>Quick Links</h3>
@@ -102,18 +101,9 @@
       <div class="meta">Based on the plan’s geospatial damage & hazard analysis (pp. 8–9).</div>
       <details open>
         <summary><strong>High-risk areas & actions</strong></summary>
-        <ul>
-          <li>Focus enhanced codes, defensible space, and community drills in wildland-urban interface foothills.</li>
-          <li>Prioritize older wood-frame homes with limited defensible space for grants & retrofit support.</li>
-          <li>Use lower-risk transit/commercial nodes for phased repopulation and staging logistics.</li>
-        </ul>
-        <p class="note">See the risk maps and “Future Risk Mitigation” guidance in the plan (pp. 8–9).<sup class="small">[Source]</sup></p>
       </details>
       <details>
         <summary><strong>Environmental vulnerabilities</strong></summary>
-        <ul>
-          <li>Air quality (annual mean PM2.5 ≈ 10.6 μg/m³) → prioritize filtration and monitoring for vulnerable groups.</li>
-          <li>Summer LST > 110°F + low canopy (12%) → expand urban forestry and cool surfaces.</li>
         </ul>
         <p class="note">Environmental context summarized from p.7 of the plan.<sup class="small">[Source]</sup></p>
       </details>
@@ -151,40 +141,6 @@
           <li>Greywater reuse; bioswales/rain gardens; smart meters & pressure sensors.</li>
           <li>Mutual-aid water sharing agreements; targeted infrastructure hardening.</li>
         </ul>
-      </details>
-      <details>
-        <summary><strong>Tank Sizing Estimator</strong></summary>
-        <div class="calc">
-          <div class="row">
-            <label>Roof catchment area (sq ft)
-              <input id="roofArea" type="number" value="1500" min="0" />
-            </label>
-            <label>Annual rainfall (inches)
-              <input id="rainIn" type="number" value="18" min="0" />
-            </label>
-            <label>Capture efficiency
-              <select id="eff">
-                <option value="0.75" selected>75% (typical)</option>
-                <option value="0.85">85% (good)</option>
-                <option value="0.9">90% (excellent)</option>
-              </select>
-            </label>
-          </div>
-          <div class="row">
-            <label>Emergency draw (gpm for firefighting)
-              <input id="gpm" type="number" value="10" min="0" />
-            </label>
-            <label>Fire duration (minutes)
-              <input id="minutes" type="number" value="30" min="0" />
-            </label>
-            <label>Domestic reserve (days @ 50 gpd/person, 3 ppl)
-              <input id="days" type="number" value="3" min="0" />
-            </label>
-          </div>
-          <button class="btn brand" id="calcBtn">Calculate</button>
-          <p class="result" id="tankResult" aria-live="polite"></p>
-          <p class="note">Rule of thumb: gallons harvested ≈ roofArea × rainIn × 0.623 × efficiency. Add fire + domestic reserves.</p>
-        </div>
       </details>
     </section>
     <section class="panel accordion" id="mobility">
@@ -263,6 +219,7 @@
         </ul>
       </div>
     </section>
+
     <section class="panel" id="tools">
       <h3>Home-Hardening & Safety Tools</h3>
       <div class="grid cols-2">
@@ -273,8 +230,7 @@
           <div id="checklist" class="checklist">
             <!-- items added by JS -->
           </div>
-          <p class="note">This mirrors the fire-resilient building guidance (pp. 16–17) and defensible space best practices.</p>
-          <div class="small" id="progress">0 of 10 completed</div>
+                    <div class="small" id="progress">0 of 10 completed</div>
         </div>
         <div>
           <h4>Permit & Policy Shortcuts</h4>
@@ -283,8 +239,44 @@
             <li>Bundle rainwater/greywater and PV+storage in one submission; request fee waivers for survivors.</li>
             <li>Coordinate with mutual water companies early for tank tie-ins and hydrant accessibility.</li>
           </ul>
-          <p class="note">Work with your recovery hub for up-to-date forms and workshops (pp. 10–12).</p>
+                  </div>
+      </div>
+    </section>
+
+    <section class="panel" id="tank-sizing">
+      <h3>Tank Sizing Estimator</h3>
+      <p class="small">Calculate recommended water tank capacity for rainwater harvesting, firefighting, and domestic use.</p>
+      
+      <div class="calc">
+        <div class="row">
+          <label>Roof catchment area (sq ft)
+            <input id="roofArea" type="number" value="1500" min="0" />
+          </label>
+          <label>Annual rainfall (inches)
+            <input id="rainIn" type="number" value="18" min="0" />
+          </label>
+          <label>Capture efficiency
+            <select id="eff">
+              <option value="0.75" selected>75% (typical)</option>
+              <option value="0.85">85% (good)</option>
+              <option value="0.9">90% (excellent)</option>
+            </select>
+          </label>
         </div>
+        <div class="row">
+          <label>Emergency draw (gpm for firefighting)
+            <input id="gpm" type="number" value="10" min="0" />
+          </label>
+          <label>Fire duration (minutes)
+            <input id="minutes" type="number" value="30" min="0" />
+          </label>
+          <label>Domestic reserve (days @ 50 gpd/person, 3 ppl)
+            <input id="days" type="number" value="3" min="0" />
+          </label>
+        </div>
+        <button class="btn brand" id="calcBtn">Calculate</button>
+        <p class="result" id="tankResult" aria-live="polite"></p>
+        <p class="note">Rule of thumb: gallons harvested ≈ roofArea × rainIn × 0.623 × efficiency. Add fire + domestic reserves.</p>
       </div>
     </section>
 	
@@ -311,9 +303,13 @@
           <legend><span>Area</span></legend>
           <div class="wf-row">
             <label>Min Longitude <input inputmode="decimal" type="text" id="wfMinLon" value="0"></label>
-            <label>Min Latitude  <input inputmode="decimal" type="text" id="wfMinLat" value="0"></label>
             <label>Max Longitude <input inputmode="decimal" type="text" id="wfMaxLon" value="0"></label>
+            <label>Min Latitude  <input inputmode="decimal" type="text" id="wfMinLat" value="0"></label>
             <label>Max Latitude  <input inputmode="decimal" type="text" id="wfMaxLat" value="0"></label>
+          </div>
+          <div class="wf-input-help">
+            <p class="small"><strong>California bounds:</strong> Long: -125 to -114, Lat: 32 to 42</p>
+            <p class="small"><strong>Example:</strong> For Southern CA: Min Lon -118, Min Lat 32, Max Lon -115, Max Lat 35</p>
           </div>
         </fieldset>
 
@@ -325,6 +321,10 @@
             <label>Start <input type="date" id="wfStart"></label>
             <label>End <input type="date" id="wfEnd"></label>
           </div>
+          <div class="wf-input-help">
+            <p class="small"><strong>Days look-back:</strong> Enter 365 for one year, 30 for one month</p>
+            <p class="small"><strong>Date range:</strong> Use date pickers for specific time periods</p>
+          </div>
         </fieldset>
 
         <div class="wf-actions">
@@ -335,6 +335,12 @@
 
       <div class="wf-results">
         <div id="wfSummary" class="wf-summary" role="status" aria-live="polite">No data yet.</div>
+        
+        <div class="wf-chart-container">
+          <h4>California Wildfire Trends</h4>
+          <canvas id="wildfireChart" width="800" height="400"></canvas>
+        </div>
+        
         <div class="wf-table-wrap">
           <table class="wf-table" id="wfTable">
             <thead>
@@ -373,6 +379,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
   crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="script.js"></script>
   <script>
     // Toggle sidebar visibility
