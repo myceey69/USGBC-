@@ -85,7 +85,7 @@
       <div class="panel">
         
 		
-		<img src="USGBC.png" alt="Description" >
+		<img src="USGBCC.png" alt="Description" >
 		
 		
 		
@@ -287,27 +287,64 @@
     </section>
 
     <section class="panel" id="tools">
-      <h3>Home-Hardening & Safety Tools</h3>
-      <div class="grid cols-2">
+  <h3>Home-Hardening & Safety Tools</h3>
+
+  <div class="grid cols-2">
+
+    <!-- LEFT SIDE: CHECKLIST -->
+    <div>
+      <h4>Home-Hardening Checklist</h4>
+	  <br>
+      <div id="checklist" class="checklist"></div>
+      <div class="small" id="progress">0 of 10 completed</div>
+    </div>
+
+    <!-- RIGHT SIDE: RISK CARD + SAFETY METER -->
+<div class="right-tools">
+
+  <!-- Wildfire Risk Snapshot -->
+  <div class="risk-card">
+    <h4>Wildfire Risk Snapshot</h4>
+    <ul>
+      <li><strong>Summer highs:</strong> 95–110°F</li>
+      <li><strong>Ember exposure:</strong> Moderate–High</li>
+      <li><strong>Slope risk:</strong> High (foothill interface)</li>
+      <li><strong>Wind drivers:</strong> Santa Ana winds</li>
+      <li><strong>Historic fire days/year:</strong> 12–30</li>
+    </ul>
+  </div>
+
+  <!-- Safety Score Meter -->
+  <div class="safety-meter">
+    <h4>Safety Score Meter</h4>
+    <div class="meter-bar">
+      <div class="meter-fill" id="meterFill"></div>
+    </div>
+    <p id="meterText" class="small">0% complete</p>
+  </div>
+
+  <!-- Permit & Policy Shortcuts -->
+  <div class="policy-card">
+    <h4>Permit & Policy Shortcuts</h4>
+    <ul>
+      <li>Use expedited permitting pathways for projects meeting resilience standards (pp. 18–19, 26–27).</li>
+      <li>Bundle rainwater/greywater and PV+storage in one submission; request fee waivers for survivors.</li>
+      <li>Coordinate early with mutual water companies for tank tie-ins and hydrant accessibility.</li>
+    </ul>
+  </div>
+
+</div>
+
+</section>
 
 
-        <div>
-          <h4>Home-Hardening Checklist</h4>
-          <div id="checklist" class="checklist">
-            <!-- items added by JS -->
-          </div>
-          <div class="small" id="progress">0 of 10 completed</div>
-        </div>
-        <div>
-          <h4>Permit & Policy Shortcuts</h4>
-          <ul>
-            <li>Use expedited permitting pathways for projects meeting resilience standards (pp. 18–19, 26–27).</li>
-            <li>Bundle rainwater/greywater and PV+storage in one submission; request fee waivers for survivors.</li>
-            <li>Coordinate with mutual water companies early for tank tie-ins and hydrant accessibility.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+
+
+
+
+
+
+
 
     <section class="panel" id="tank-sizing">
       <h3>Tank Sizing Estimator</h3>

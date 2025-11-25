@@ -620,3 +620,22 @@ if (deleteBtn) {
     }
   });
 }
+
+// === SAFETY METER ===
+function updateSafetyMeter() {
+  const checks = checklist.querySelectorAll('input[type=checkbox]');
+  const done = Array.from(checks).filter(c => c.checked).length;
+  const percent = Math.round((done / checks.length) * 100);
+
+  const fill = document.getElementById('meterFill');
+  const text = document.getElementById('meterText');
+
+  if (fill) fill.style.width = percent + "%";
+  if (text) text.textContent = percent + "% complete";
+}
+
+document.addEventListener("change", function(e) {
+    if (e.target.closest("#checklist")) {
+        updateSafetyMeter();
+    }
+});

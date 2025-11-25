@@ -606,7 +606,19 @@ h3::after {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
-.checklist{ display:grid; gap:10px; }
+.checklist {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 18px; /* vertical/horizontal spacing */
+}
+
+@media (max-width: 700px) {
+  .checklist {
+    grid-template-columns: 1fr; /* fallback to single column on mobile */
+  }
+}
+
+
 .check-item{ 
   display:flex; 
   gap:12px; 
@@ -1179,4 +1191,118 @@ main > *:nth-child(5) { animation-delay: 0.5s; }
 
 .program-link:hover {
   text-decoration: underline;
+}
+
+.right-tools {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* keeps content aligned at top */
+  gap: 24px;
+  height: 100%; /* forces right column to match left's grid height */
+}
+
+
+/* Risk Snapshot Card */
+.risk-card {
+  background: linear-gradient(135deg, #0c1523, #0f1a2e);
+  border: 1px solid rgba(96, 165, 250, 0.15);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.risk-card h4 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: #e6f0ff;
+}
+
+.risk-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.risk-card li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.95rem;
+  color: #cfe3ff;
+}
+
+.risk-card li:last-child {
+  border-bottom: none;
+}
+
+/* Safety Score Meter */
+.safety-meter {
+  background: linear-gradient(135deg, #0c1523, #0f1a2e);
+  border: 1px solid rgba(96,165,250,0.15);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.safety-meter h4 {
+  margin-bottom: 12px;
+}
+
+.meter-bar {
+  width: 100%;
+  height: 16px;
+  background: #1a2943;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  border: 1px solid rgba(96,165,250,0.25);
+}
+
+.meter-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--gradient);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+.policy-card {
+  background: linear-gradient(135deg, #0c1523, #0f1a2e);
+  border: 1px solid rgba(96, 165, 250, 0.15);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.policy-card h4 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: #e6f0ff;
+}
+
+.policy-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.policy-card li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+  color: #cfe3ff;
+}
+
+.policy-card li:last-child {
+  border-bottom: none;
+}
+
+.risk-card ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 20px;
+}
+
+.risk-card li {
+  border-bottom: none; /* remove line */
+  padding-bottom: 4px;
 }
