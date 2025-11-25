@@ -53,6 +53,7 @@
       <a href="#cesium-story">3D Story Viewer</a>
       <a href="#tools">Tools & Checklists</a>
       <a href="#adu">ADU Explorer</a>
+      <a href="#adu-tester">House/ADU Wildfire Tester</a>
       <a href="#wildfire-tools">Wildfire Events</a>
       <a href="#mapSection">Map</a>
       
@@ -72,8 +73,7 @@
         </p>
         <div class="actions">
           <button class="btn brand" onclick="window.print()">Print / Save as PDF</button>
-          <button class="btn" id="expandAll">Expand all</button>
-          <button class="btn" id="collapseAll">Collapse all</button>
+  
         </div>
         <div class="kpis" style="margin-top:10px">
           <div class="k"><div class="small">Minority pop.</div><strong>~72%</strong></div>
@@ -96,103 +96,173 @@
         </div>
       </div>
     </section>
-    <section class="panel accordion" id="risk">
-      <summary><h3>Risk & Damage: What to Prioritize First</h3></summary>
-      <div class="meta">Based on the plan’s geospatial damage & hazard analysis (pp. 8–9).</div>
-      <details open>
-        <summary><strong>High-risk areas & actions</strong></summary>
-      </details>
-      <details>
-        <summary><strong>Environmental vulnerabilities</strong></summary>
-        </ul>
-        <p class="note">Environmental context summarized from p.7 of the plan.<sup class="small">[Source]</sup></p>
-      </details>
-    </section>
-    <section class="panel accordion" id="hubs">
-      <summary><h3>Community Recovery Hubs & Key Facilities</h3></summary>
-      <div class="meta">Hubs, health providers, schools, parks, water providers, and fire stations (pp. 10–12).</div>
-      <details open>
-        <summary><strong>Primary hubs</strong></summary>
-        <ul>
-          <li><em>540 W Woodbury Rd</em> — permanent disaster recovery center.</li>
-          <li>Pasadena Disaster Recovery Center • Pasadena City College workshops • Flintridge Center.</li>
-          <li>Convention Center (large-scale logistics & outreach).</li>
-        </ul>
-      </details>
-      <details>
-        <summary><strong>Supporting network</strong></summary>
-        <ul>
-          <li>Health: AltaMed, KP Medical, Pasadena Public Health, Wesley Health, CHAP, etc.</li>
-          <li>Schools as recovery anchors: Longfellow, Washington STEM Magnet, Altadena Arts Magnet, etc.</li>
-          <li>Parks: Washington, Triangle, La Pintoresca, Loma Alta, Farnsworth, Hahamongna.</li>
-          <li>Water: Lincoln Ave Water Co, Rubio Canon L&W, Las Flores, Foothill MWD.</li>
-          <li>Fire Stations: LACoFD 11, 12, 66; Pasadena FD 32, 33, 36, 38 (air-quality monitoring at Station 11).</li>
-        </ul>
-      </details>
-    </section>
-    <section class="panel accordion" id="water">
-      <summary><h3>Integrated Water Resilience</h3></summary>
-      <div class="meta">Mandatory site-level harvesting, distributed storage, greywater, neighborhood networks, and monitoring (pp. 12–13).</div>
-      <details open>
-        <summary><strong>Key elements</strong></summary>
-        <ul>
-          <li>Rooftop catchment with tanks sized for <em>domestic + emergency fire</em> draw-off.</li>
-          <li>Public/institutional cistern nodes at schools, parks, fire stations, hospitals.</li>
-          <li>Greywater reuse; bioswales/rain gardens; smart meters & pressure sensors.</li>
-          <li>Mutual-aid water sharing agreements; targeted infrastructure hardening.</li>
-        </ul>
-      </details>
-    </section>
-    <section class="panel accordion" id="mobility">
-      <summary><h3>Mobility, Transit & Emergency Functions</h3></summary>
-      <div class="meta">Altadena/Lake & Fair Oaks/Altadena nodes, frequencies, equity metrics, and emergency roles (pp. 14–15).</div>
-      <details open>
-        <summary><strong>Key nodes & opportunities</strong></summary>
-        <ul>
-          <li>Altadena/Lake: ~3 trips/hr peak; Fair Oaks/Altadena: ~2–2.5 trips/hr; improve midday & weekend gaps.</li>
-          <li>Upgrade stops (shade, seating, real-time info) & integrate corridors with green infrastructure.</li>
-          <li>Use established routes for evacuation drills, relief staging, and medical access continuity.</li>
-        </ul>
-      </details>
-    </section>
-    <section class="panel accordion" id="green">
-      <summary><h3>Green & Resilient Rebuilding Guidelines</h3></summary>
-      <div class="meta">Energy efficiency, renewables + storage, fire-resistant materials, stormwater, equity, urban forestry (pp. 16–17).</div>
-      <details open>
-        <summary><strong>Design checklist</strong></summary>
-        <ul>
-          <li>High-performance envelope; efficient HVAC; daylighting.</li>
-          <li>Solar PV + battery storage for outage resilience.</li>
-          <li>Non-combustible cladding, tempered glazing, ember-resistant vents.</li>
-          <li>Defensible-space landscaping with native, drought-tolerant plants.</li>
-          <li>Permeable surfaces, bioswales, and retention basins to manage stormwater onsite.</li>
-        </ul>
-      </details>
-    </section>
-    <section class="panel accordion" id="equity">
-      <summary><h3>Equity-Centered Resource Allocation & Housing</h3></summary>
-      <div class="meta">Prioritize low-income, seniors, renters; transparent criteria; anti-displacement measures (pp. 22–23).</div>
-      <details open>
-        <summary><strong>Implementation</strong></summary>
-        <ul>
-          <li>Grants/loans for severely impacted households; insurance navigation & legal aid.</li>
-          <li>Rebuild affordable rentals; incentives for landlords to maintain affordability.</li>
-          <li>Link rent stabilization to recovery funding; publish disaggregated progress metrics.</li>
-        </ul>
-      </details>
-    </section>
-    <section class="panel accordion" id="monitoring">
-      <summary><h3>Monitoring, Feedback & Adaptive Implementation</h3></summary>
-      <div class="meta">Real-time dashboards, community reporting loops, and agile governance (pp. 20–21).</div>
-      <details open>
-        <summary><strong>Dashboard ideas</strong></summary>
-        <ul>
-          <li>Permit cycle times; rebuild starts/completions; water system uptime; AQI & asthma visits.</li>
-          <li>Public hub events, CERT participation, equity distribution maps.</li>
-          <li>“Adjustments log” to record policy/process fixes triggered by data or community input.</li>
-        </ul>
-      </details>
-    </section>
+   
+   
+   
+   <!-- ======================= RISK & DAMAGE ======================= -->
+<section class="panel" id="risk">
+  <h3>Risk & Damage: What to Prioritize First</h3>
+
+  <div class="program-cards">
+    <div class="program-card">
+      <h4>High-risk areas & actions</h4>
+      <ul>
+        <li>Focus enhanced codes, defensible space, and community drills in wildland–urban interface foothills.</li>
+        <li>Prioritize older wood-frame homes with limited defensible space for grants & retrofit support.</li>
+        <li>Use lower-risk transit/commercial nodes for phased repopulation and staging logistics.</li>
+      </ul>
+    </div>
+
+    <div class="program-card">
+      <h4>Environmental vulnerabilities</h4>
+      <ul>
+        <li>Air quality (annual mean PM2.5 ≈ 10.6 µg/m³) → prioritize filtration and monitoring for vulnerable groups.</li>
+        <li>Summer LST &gt; 110°F + low canopy (12%) → expand urban forestry and cool surfaces.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= RECOVERY HUBS ======================= -->
+<section class="panel" id="hubs">
+  <h3>Community Recovery Hubs & Key Facilities</h3>
+
+  <div class="program-cards">
+    <div class="program-card">
+      <h4>Primary hubs</h4>
+      <ul>
+        <li><em>540 W Woodbury Rd</em> — permanent disaster recovery center.</li>
+        <li>Pasadena Disaster Recovery Center, Pasadena City College workshops, Flintridge Center.</li>
+        <li>Convention Center — large-scale logistics & outreach.</li>
+      </ul>
+    </div>
+
+    <div class="program-card">
+      <h4>Supporting network</h4>
+      <ul>
+        <li>Health: AltaMed, KP Medical, Pasadena Public Health, Wesley Health, CHAP.</li>
+        <li>Schools: Longfellow, Washington STEM Magnet, Altadena Arts Magnet, etc.</li>
+        <li>Parks: Washington, Triangle, La Pintoresca, Loma Alta, Farnsworth, Hahamongna.</li>
+        <li>Water: Lincoln, Rubio Canon, Las Flores, Foothill MWD.</li>
+        <li>Fire Stations: LACoFD 11, 12, 66; Pasadena FD 32, 33, 36, 38.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= WATER RESILIENCE ======================= -->
+<section class="panel" id="water">
+  <h3>Integrated Water Resilience</h3>
+
+  <div class="program-cards">
+    <div class="program-card">
+      <h4>Key elements</h4>
+      <ul>
+        <li>Rooftop catchment with tanks sized for domestic + fire reserve.</li>
+        <li>Cistern nodes at schools, parks, fire stations, and hospitals.</li>
+        <li>Greywater reuse, bioswales, rain gardens, smart meters & sensors.</li>
+        <li>Mutual-aid water sharing & targeted infrastructure hardening.</li>
+      </ul>
+    </div>
+
+    <div class="program-card">
+      <h4>Distributed storage strategy</h4>
+      <ul>
+        <li>Neighborhood-scale redundancy for reliability.</li>
+        <li>Backup tanks with dedicated firefighter outlets.</li>
+        <li>Accessible signage & inspection-ready design.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= MOBILITY ======================= -->
+<section class="panel" id="mobility">
+  <h3>Mobility, Transit & Emergency Functions</h3>
+
+  <div class="program-cards">
+    <div class="program-card">
+      <h4>Key nodes & opportunities</h4>
+      <ul>
+        <li>Altadena/Lake: ~3 trips/hr peak; Fair Oaks/Altadena: ~2–2.5/hr.</li>
+        <li>Improve midday & weekend coverage for equity.</li>
+        <li>Upgrade stops with shade, seating, real-time signage.</li>
+      </ul>
+    </div>
+
+    <div class="program-card">
+      <h4>Emergency & continuity roles</h4>
+      <ul>
+        <li>Use transit corridors for evacuation drills & relief staging.</li>
+        <li>Ensure medical access continuity in emergency plans.</li>
+        <li>Hardening bus shelters & key intersections.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= GREEN & RESILIENT REBUILD ======================= -->
+<section class="panel" id="green">
+  <h3>Green & Resilient Rebuilding Guidelines</h3>
+
+  <div class="program-cards">
+    <div class="program-card">
+      <h4>Design checklist</h4>
+      <ul>
+        <li>High-performance envelope; efficient HVAC; daylighting.</li>
+        <li>Solar PV + battery storage for outage resilience.</li>
+        <li>Non-combustible cladding, tempered glazing, ember vents.</li>
+        <li>Native, drought-tolerant defensible-space landscaping.</li>
+        <li>Permeable surfaces, bioswales, retention basins.</li>
+      </ul>
+    </div>
+
+    <div class="program-card">
+      <h4>Nature-based & sustainability features</h4>
+      <ul>
+        <li>Urban forestry expansion for heat mitigation.</li>
+        <li>Cool roofs & surfaces in high-heat areas.</li>
+        <li>Rain capture linked to stormwater relief systems.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= EQUITY & HOUSING ======================= -->
+<section class="panel" id="equity">
+  <h3>Equity-Centered Resource Allocation & Housing</h3>
+
+  <!-- Only ONE topic → ONE centered card -->
+  <div class="program-cards" style="justify-content:center; grid-template-columns:1fr; max-width:700px; margin:0 auto;">
+    <div class="program-card">
+      <h4>Implementation</h4>
+      <ul>
+        <li>Grants/loans for severely impacted households; insurance & legal aid.</li>
+        <li>Rebuild affordable rentals; incentives for landlords to maintain affordability.</li>
+        <li>Link rent stabilization to recovery funding; publish disaggregated metrics.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= MONITORING ======================= -->
+<section class="panel" id="monitoring">
+  <h3>Monitoring, Feedback & Adaptive Implementation</h3>
+
+  <!-- One main topic → One centered card -->
+  <div class="program-cards" style="justify-content:center; grid-template-columns:1fr; max-width:700px; margin:0 auto;">
+    <div class="program-card">
+      <h4>Dashboard ideas</h4>
+      <ul>
+        <li>Permit cycle times, rebuild starts/completions, water system uptime.</li>
+        <li>AQI, asthma visits, and environmental health trends.</li>
+        <li>CERT participation, hub usage, equity distribution maps.</li>
+        <li>“Adjustments log” documenting policy/process fixes.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 
 
      <!-- Cesium ion Story Viewer -->
@@ -230,7 +300,7 @@
           <div id="checklist" class="checklist">
             <!-- items added by JS -->
           </div>
-                    <div class="small" id="progress">0 of 10 completed</div>
+          <div class="small" id="progress">0 of 10 completed</div>
         </div>
         <div>
           <h4>Permit & Policy Shortcuts</h4>
@@ -239,7 +309,7 @@
             <li>Bundle rainwater/greywater and PV+storage in one submission; request fee waivers for survivors.</li>
             <li>Coordinate with mutual water companies early for tank tie-ins and hydrant accessibility.</li>
           </ul>
-                  </div>
+        </div>
       </div>
     </section>
 
@@ -280,18 +350,150 @@
       </div>
     </section>
 	
-<section class="panel" id="adu">
-  <h3>ADU Explorer: Sustainable Rebuilding Options</h3>
-  <p class="small">Explore fire-resilient, water-smart, and equitable accessory dwelling unit (ADU) models suitable for your recovery plan.</p>
-  <div class="adu-grid" id="aduGrid"></div>
+    <section class="panel" id="adu">
+      <h3>ADU Explorer: Sustainable Rebuilding Options</h3>
+      <p class="small">Explore fire-resilient, water-smart, and equitable accessory dwelling unit (ADU) models suitable for your recovery plan.</p>
+      <div class="adu-grid" id="aduGrid"></div>
 
-  <div id="aduViewer" class="adu-viewer" hidden>
-    <h4 id="aduTitle"></h4>
-    <model-viewer id="aduModel" src="" alt="ADU model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" exposure="1.1" shadow-intensity="0.8"></model-viewer>
-    <p id="aduDesc" class="small"></p>
-    <button class="btn" id="aduClose">Close Viewer</button>
+      <div id="aduViewer" class="adu-viewer" hidden>
+        <h4 id="aduTitle"></h4>
+        <model-viewer id="aduModel" src="" alt="ADU model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" exposure="1.1" shadow-intensity="0.8"></model-viewer>
+        <p id="aduDesc" class="small"></p>
+        <button class="btn" id="aduClose">Close Viewer</button>
+      </div>
+    </section>
+	
+
+
+    <!-- NEW: House / ADU Wildfire Tester -->
+    <section class="panel" id="adu-tester">
+	<section class="panel" id="photo-tester">
+  <h3>Upload a Photo of Your House / ADU</h3>
+  <p class="small">
+    Upload an exterior photo of your home or ADU.  
+    This helps visually compare your structure with wildfire-safe guidelines.
+  </p>
+
+  <div class="calc">
+    <label>Choose an image of your house
+      <input id="housePhotoInput" type="file" accept="image/*">
+    </label>
+
+    <div id="photoPreviewWrapper" style="margin-top:15px;" hidden>
+      <h4>Preview</h4>
+      <img id="housePhotoPreview" 
+     src="" 
+     alt="Uploaded house photo"
+     style="
+       width: 300px;
+       height: auto;
+       border-radius: 12px;
+       border: 1px solid #1a2943;
+       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+       display: block;
+       margin: 0 auto;
+     ">
+	 
+	 <button id="deletePhotoBtn" 
+        class="btn" 
+        style="margin-top:12px; background:#7f1d1d; border-color:#b91c1c;">
+  Delete Image
+</button>
+    </div>
   </div>
+  <div id="photoError" 
+     style="display:none; 
+            margin-top:12px; 
+            padding:12px 16px; 
+            border-radius:12px;
+            border:1px solid rgba(248,113,113,0.4);
+            background:rgba(248,113,113,0.15);
+            color:#fecaca; 
+            font-size:0.9rem;
+            backdrop-filter:blur(6px);">
+</div>
 </section>
+      <h3>House / ADU Wildfire Safety Tester</h3>
+      <p class="small">
+        Answer these quick questions about your house or ADU.  
+        You’ll get a <strong>1–10 wildfire safety rating</strong> (1 = less safe, 10 = safest)  
+        and an informal “approval” style status. This is a heuristic tool only; always confirm with local codes.
+      </p>
+
+      <div class="calc">
+        <div class="row">
+          <label>Roof rating
+            <select id="wtRoof">
+              <option value="0">Unknown / below Class A</option>
+              <option value="2">Class B</option>
+              <option value="3">Class A (metal, tile, comp)</option>
+            </select>
+          </label>
+          <label>Exterior walls
+            <select id="wtWalls">
+              <option value="0">Combustible siding (wood/vinyl)</option>
+              <option value="2">Mixed / partially non-combustible</option>
+              <option value="3">Non-combustible (stucco, fiber-cement, masonry)</option>
+            </select>
+          </label>
+          <label>Defensible space
+            <select id="wtSpace">
+              <option value="0">Minimal clearing</option>
+              <option value="2">Some clearing (5–30 ft partly treated)</option>
+              <option value="3">0–5 ft ignition-free + 5–30 ft lean/clean/green</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row">
+          <label>Vents & eaves
+            <select id="wtVents">
+              <option value="0">Unscreened vents / open eaves</option>
+              <option value="2">Screened vents or boxed eaves</option>
+              <option value="3">1/8" metal mesh ember vents + boxed eaves</option>
+            </select>
+          </label>
+          <label>Windows & openings
+            <select id="wtWindows">
+              <option value="0">Single-pane / unprotected</option>
+              <option value="2">Some tempered or shutters</option>
+              <option value="3">Dual-pane w/ tempered outer + shutters/screens</option>
+            </select>
+          </label>
+          <label>Onsite water & access
+            <select id="wtWater">
+              <option value="0">No dedicated water / poor access</option>
+              <option value="2">Small tank or pool; limited firefighter outlet</option>
+              <option value="3">≥2,500 gal tank/pool with fire outlet & clear access</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row">
+          <label>Adjacent fuels / exposure
+            <select id="wtExposure">
+              <option value="-2">Steep slope / heavy fuels within 30 ft</option>
+              <option value="0">Moderate fuels / typical block</option>
+              <option value="2">Low fuels / buffered from canyons</option>
+            </select>
+          </label>
+          <label>Sprinklers / interior systems
+            <select id="wtSprinklers">
+              <option value="0">None</option>
+              <option value="1">Partial (add-ons / limited)</option>
+              <option value="2">Full NFPA 13D/13R or equivalent</option>
+            </select>
+          </label>
+        </div>
+
+        <button class="btn brand" type="button" id="wtRun">Rate my wildfire safety</button>
+        <p class="result" id="wtResult" aria-live="polite"></p>
+        <p class="note small">
+          This tool gives an <strong>approximate</strong> rating only and does not replace a WUI code review,
+          local fire department inspection, or guidance from a wildfire specialist.
+        </p>
+      </div>
+    </section>
 
     <!-- Wildfire Events widget -->
     <section class="panel" id="wildfire-tools">

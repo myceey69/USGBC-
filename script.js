@@ -2,6 +2,7 @@
 const search = document.querySelector('#search');
 const tocLinks = [...document.querySelectorAll('#toc a')];
 const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
+
 function filterTOC(q){
   const t = q.trim().toLowerCase();
   tocLinks.forEach(a=>{
@@ -9,7 +10,9 @@ function filterTOC(q){
     a.style.display = match ? 'block' : 'none';
   });
 }
+
 search.addEventListener('input', e=>filterTOC(e.target.value));
+
 // Active link on scroll
 const obs = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
@@ -21,15 +24,11 @@ const obs = new IntersectionObserver((entries)=>{
     }
   });
 }, { rootMargin: "-30% 0px -60% 0px", threshold: 0.01 });
-sections.forEach(s=>obs.observe(s));
-// --------- Expand/Collapse all ----------
-const expandAllBtn = document.getElementById('expandAll');
-const collapseAllBtn = document.getElementById('collapseAll');
-function setAll(open){
-  document.querySelectorAll('details').forEach(d=>d.open = open);
-}
-expandAllBtn.addEventListener('click', ()=>setAll(true));
-collapseAllBtn.addEventListener('click', ()=>setAll(false));
+
+sections.forEach(s=>s && obs.observe(s));
+
+
+
 // --------- Tank sizing calculator ----------
 function calcTank(){
   const A = +roofArea.value;     // sq ft
@@ -38,23 +37,28 @@ function calcTank(){
   const gpm = +gpmEl.value;
   const min = +minutesEl.value;
   const days = +daysEl.value;
+
   const harvested = A * R * 0.623 * eff;          // gallons/year
   const fire = gpm * min;                         // gallons
   const domestic = 50 * 3 * days;                 // gallons
   const needed = Math.ceil(fire + domestic);
   const recommended = Math.ceil(Math.max(needed, harvested * 0.25));
+
   tankResult.textContent =
     `Recommended storage ≈ ${recommended.toLocaleString()} gallons `
     + `(fire: ${fire.toLocaleString()} + domestic: ${domestic.toLocaleString()}, `
     + `annual harvest ~ ${Math.ceil(harvested).toLocaleString()} gal).`;
 }
+
 const roofArea = document.getElementById('roofArea');
 const rainIn   = document.getElementById('rainIn');
 const effEl    = document.getElementById('eff');
 const gpmEl    = document.getElementById('gpm');
 const minutesEl= document.getElementById('minutes');
 const daysEl   = document.getElementById('days');
+
 document.getElementById('calcBtn').addEventListener('click', calcTank);
+
 // --------- Checklist ----------
 const checklistItems = [
   "Non-combustible exterior cladding (Class A or metal/cementitious)",
@@ -68,8 +72,10 @@ const checklistItems = [
   "Solar + battery storage for outage resilience",
   "Rainwater tank with firefighter outlet (NST thread or local standard)"
 ];
+
 const checklist = document.getElementById('checklist');
 const progress = document.getElementById('progress');
+
 function renderChecklist(){
   checklist.innerHTML = "";
   checklistItems.forEach((t,i)=>{
@@ -82,26 +88,33 @@ function renderChecklist(){
   checklist.addEventListener('change', updateProgress);
   updateProgress();
 }
+
 function updateProgress(){
   const checks = checklist.querySelectorAll('input[type=checkbox]');
   const done = Array.from(checks).filter(c=>c.checked).length;
   progress.textContent = `${done} of ${checks.length} completed`;
 }
+
 renderChecklist();
+
 // --------- Map ----------
 const map = L.map('map', { scrollWheelZoom:false }).setView([34.19, -118.13], 12);
+
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19, attribution: '&copy; OpenStreetMap'
 }).addTo(map);
+
 const hubs = [
   { name: "Recovery Hub — 540 W Woodbury Rd (placeholder)", coords:[34.1705, -118.1610] },
   { name: "Pasadena Disaster Recovery Center (placeholder)", coords:[34.1479, -118.1445] },
   { name: "LACoFD Station 11 (monitoring) — placeholder", coords:[34.187, -118.130] },
   { name: "Supermarket Node (741 E Altadena Dr, placeholder)", coords:[34.190, -118.123] },
 ];
+
 hubs.forEach(h=>{
   L.marker(h.coords).addTo(map).bindPopup(`<strong>${h.name}</strong>`);
 });
+
 // --------- Keyboard focus for a11y ----------
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click', e=>{
@@ -484,8 +497,126 @@ showADU = function(a){
   }
 };
 
+/* ==================== House / ADU Wildfire Tester logic ==================== */
 
+const wtRun = document.getElementById('wtRun');
+const wtResult = document.getElementById('wtResult');
 
+function computeWildfireRating() {
+  if (!wtRun || !wtResult) return;
 
+  const getVal = id => {
+    const el = document.getElementById(id);
+    const v = el ? parseFloat(el.value) : 0;
+    return Number.isFinite(v) ? v : 0;
+  };
+
+  const roof       = getVal('wtRoof');
+  const walls      = getVal('wtWalls');
+  const space      = getVal('wtSpace');
+  const vents      = getVal('wtVents');
+  const windows    = getVal('wtWindows');
+  const water      = getVal('wtWater');
+  const exposure   = getVal('wtExposure');
+  const sprinklers = getVal('wtSprinklers');
+
+  // Raw score can be slightly negative if exposure is bad; shift to 0–24,
+  // then map to 1–10.
+  let raw = roof + walls + space + vents + windows + water + exposure + sprinklers;
+  let shifted = raw + 2; // move -2..22 range to 0..24
+  if (shifted < 0) shifted = 0;
+  if (shifted > 24) shifted = 24;
+
+  let rating = Math.round(1 + (shifted * 9) / 24);
+  if (rating < 1) rating = 1;
+  if (rating > 10) rating = 10;
+
+  let status;
+  let advice;
+
+  if (rating <= 3) {
+    status = 'Not wildfire-hardened / not approved';
+    advice = 'Add a Class A roof, non-combustible siding, an ignition-free 0–5 ft zone, and ember-resistant vents as a starting point.';
+  } else if (rating <= 6) {
+    status = 'Partially hardened – needs work before approval';
+    advice = 'Focus on vents/eaves, windows, and defensible space to reduce ember exposure and radiant heat.';
+  } else if (rating <= 8) {
+    status = 'Substantially hardened – close to good practice';
+    advice = 'Work with your local fire authority or WUI code official to confirm details and address any remaining weak spots.';
+  } else {
+    status = 'Highly hardened – best-practice features present';
+    advice = 'Verify tank sizing, hose connections, and maintenance plans with local fire codes and water providers.';
+  }
+
+  wtResult.textContent =
+    `Wildfire safety rating: ${rating}/10 – ${status}. ${advice}`;
+}
+
+if (wtRun) {
+  wtRun.addEventListener('click', computeWildfireRating);
+}
+
+// Initialize wildfire tool state at load
   clearAll();
 })();
+
+/* ==================== House Photo Upload With Size Limit + Styled Warning ==================== */
+
+const photoInput = document.getElementById('housePhotoInput');
+const photoPreview = document.getElementById('housePhotoPreview');
+const photoWrapper = document.getElementById('photoPreviewWrapper');
+const photoError = document.getElementById('photoError');
+
+const MAX_SIZE_MB = 3;  // Set your limit here
+const MAX_BYTES = MAX_SIZE_MB * 1024 * 1024;
+
+if (photoInput) {
+  photoInput.addEventListener('change', function () {
+    const file = photoInput.files[0];
+    if (!file) return;
+
+    // Reset previous messages
+    photoError.style.display = "none";
+    photoError.textContent = "";
+
+    // Check size
+    if (file.size > MAX_BYTES) {
+
+      photoError.textContent = `⚠️ Image too large. Maximum allowed size is ${MAX_SIZE_MB} MB.`;
+      photoError.style.display = "block";
+
+      // Reset preview
+      photoInput.value = "";
+      photoWrapper.hidden = true;
+      photoPreview.src = "";
+
+      return;
+    }
+
+    // Display preview
+    const url = URL.createObjectURL(file);
+    photoPreview.src = url;
+    photoWrapper.hidden = false;
+  });
+}
+
+/* ==================== Delete House Photo Function ==================== */
+
+const deleteBtn = document.getElementById('deletePhotoBtn');
+
+if (deleteBtn) {
+  deleteBtn.addEventListener('click', function () {
+    // Clear preview
+    photoPreview.src = "";
+    photoWrapper.hidden = true;
+
+    // Reset file input
+    photoInput.value = "";
+
+    // Hide error message if any
+    if (photoError) {
+      photoError.style.display = "none";
+      photoError.textContent = "";
+    }
+  });
+}
