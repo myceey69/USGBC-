@@ -674,6 +674,11 @@ h3::after {
   backdrop-filter: blur(5px);
 }
 
+.calc select option {
+  color: #000;      
+  background: #fff; 
+}
+
 .calc input:focus,
 .calc select:focus {
   border-color: var(--brand);
