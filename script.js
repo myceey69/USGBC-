@@ -401,7 +401,13 @@ const adus = [
     desc: "Off-grid capable micro-unit ideal for community hubs or senior housing.",
     model:"https://modelviewer.dev/shared-assets/models/Astronaut.glb",
     mapTag: "solar"
-  }
+  }, 
+    {
+    name: "TEST",
+    model:"https://raw.githubusercontent.com/myceey69/USGBC-/11b43160127e1125453599d02581e49f5c4ed225/ADU_Final_Magie.glb",
+  } 
+  
+  
 ];
 
 const aduGrid = document.getElementById('aduGrid');
@@ -639,3 +645,4 @@ document.addEventListener("change", function(e) {
         updateSafetyMeter();
     }
 });
+
