@@ -375,7 +375,7 @@ const adus = [
     wildfire: "High",
     equity: "Strong",
     desc: "Metal-frame prefab with Class A roof, solar battery, and fire-rated cladding.",
-    model: "https://raw.githubusercontent.com/myceey69/USGBC-/11b43160127e1125453599d02581e49f5c4ed225/ADU_Final_Magie.glb",
+    model: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/CesiumMan/glTF-Binary/CesiumMan.glb",
     mapTag: "hub"
   },
   
