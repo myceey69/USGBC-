@@ -415,16 +415,16 @@ const adus = [
   }, 
   
   {
-    name: "TEST2",
-    cost: "$$$",
-    energy: "A++",
-    water: "B",
-    wildfire: "High",
-    equity: "Moderate",
-    desc: "Off-grid capable micro-unit ideal for community hubs or senior housing.",
+    name: "TEST2 Marble",
     model:"https://raw.githubusercontent.com/myceey69/USGBC-/032e246e40c0b3a5761a32d25e34d88fda6014ec/FireResCosby.glb",
-    mapTag: "solar"
+    mapTag: "Marble"
+  }, 
+   {
+	name: "TEST3 Ceramic",
+    model:"https://raw.githubusercontent.com/myceey69/USGBC-/42013288126c5f8f7c92481945b2fb057c4c6818/FireResCosby2.glb",
+    mapTag: "Ceramic"
   }
+
 ];
 
 const aduGrid = document.getElementById('aduGrid');
