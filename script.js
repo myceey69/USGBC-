@@ -414,16 +414,21 @@ const adus = [
     mapTag: "solar"
   }, 
   
-  {
-    name: "TEST2 Marble",
-    model:"https://raw.githubusercontent.com/myceey69/USGBC-/032e246e40c0b3a5761a32d25e34d88fda6014ec/FireResCosby.glb",
-    mapTag: "Marble"
-  }, 
-   {
-	name: "TEST3 Ceramic",
-    model:"https://raw.githubusercontent.com/myceey69/USGBC-/42013288126c5f8f7c92481945b2fb057c4c6818/FireResCosby2.glb",
-    mapTag: "Ceramic"
-  }
+ {
+  name: "TEST 2",
+  cost: "$$",
+  energy: "A",
+  water: "A",
+  wildfire: "High",
+  equity: "Moderate",
+  desc: "Fire-resistant ADU with optional marble or ceramic exterior materials.",
+  model: {
+    marble: "https://raw.githubusercontent.com/myceey69/USGBC-/032e246e40c0b3a5761a32d25e34d88fda6014ec/FireResCosby.glb",
+    ceramic: "https://raw.githubusercontent.com/myceey69/USGBC-/42013288126c5f8f7c92481945b2fb057c4c6818/FireResCosby2.glb"
+  },
+  mapTag: "FireResCosby"
+}
+
 
 ];
 
@@ -455,9 +460,38 @@ function showADU(a) {
   aduViewer.hidden = false;
   aduTitle.textContent = a.name;
   aduDesc.textContent = a.desc;
-  aduModel.src = a.model;
 
-  // Optionally highlight on the map
+  // Determine selected material IF the ADU uses multi-material models
+  let selectedMaterial = "marble";
+  const materialRadio = document.querySelector('input[name="material"]:checked');
+
+  if (materialRadio) {
+    selectedMaterial = materialRadio.value;
+  }
+
+  // Handle single-model ADUs (string) vs multi-material ADUs (object)
+  if (typeof a.model === "string") {
+    // Single GLB — ignore material switcher
+    aduModel.src = a.model;
+  } else {
+    // Multi-material GLB (marble/ceramic)
+    aduModel.src = a.model[selectedMaterial];
+  }
+
+  // Update model on material change (only works for multi-material ADUs)
+  document.querySelectorAll('input[name="material"]').forEach(radio => {
+    radio.onchange = (e) => {
+      if (typeof a.model === "object") {
+        aduModel.src = a.model[e.target.value];
+      }
+    };
+  });
+
+  // Hotspot logic
+  clearHotspots();
+  addHotspots(a.hotspots || []);
+
+  // Map highlight
   if (window.map && a.mapTag) {
     map.eachLayer(l => {
       if (l.getPopup && l.getPopup().getContent().includes(a.mapTag)) {
@@ -504,21 +538,7 @@ function addHotspots(hs=[]) {
 }
 
 // augment showADU to render hotspots
-const _origShowADU = showADU;
-showADU = function(a){
-  aduViewer.hidden = false;
-  aduTitle.textContent = a.name;
-  aduDesc.textContent = a.desc;
-  aduModel.src = a.model;
-  clearHotspots();
-  addHotspots(a.hotspots || []);
 
-  if (window.map && a.mapTag) {
-    map.eachLayer(l => {
-      if (l.getPopup && l.getPopup().getContent().includes(a.mapTag)) l.openPopup();
-    });
-  }
-};
 
 /* ==================== House / ADU Wildfire Tester logic ==================== */
 

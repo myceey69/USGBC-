@@ -85,7 +85,7 @@
       <div class="panel">
         
 		
-		<img src="USGBC.png" alt="Description" >
+		<img src="bigLogoUSGBC.png" alt="Description" >
 		
 		
 		
@@ -387,6 +387,17 @@
 
       <div id="aduViewer" class="adu-viewer" hidden>
         <h4 id="aduTitle"></h4>
+		<div class="material-select" style="margin: 15px 0; display:flex; gap:20px; justify-content:center;">
+  <label style="cursor:pointer;">
+    <input type="radio" name="material" value="marble" checked>
+    Marble
+  </label>
+
+  <label style="cursor:pointer;">
+    <input type="radio" name="material" value="ceramic">
+    Ceramic
+  </label>
+</div>
         <model-viewer id="aduModel" src="" alt="ADU model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" exposure="1.1" shadow-intensity="0.8"></model-viewer>
         <p id="aduDesc" class="small"></p>
         <button class="btn" id="aduClose">Close Viewer</button>
