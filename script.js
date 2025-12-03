@@ -412,8 +412,19 @@ const adus = [
     desc: "Off-grid capable micro-unit ideal for community hubs or senior housing.",
     model:"https://raw.githubusercontent.com/myceey69/USGBC-/11b43160127e1125453599d02581e49f5c4ed225/ADU_Final_Magie.glb",
     mapTag: "solar"
-  }
+  }, 
   
+  {
+    name: "TEST2",
+    cost: "$$$",
+    energy: "A++",
+    water: "B",
+    wildfire: "High",
+    equity: "Moderate",
+    desc: "Off-grid capable micro-unit ideal for community hubs or senior housing.",
+    model:"https://raw.githubusercontent.com/myceey69/USGBC-/032e246e40c0b3a5761a32d25e34d88fda6014ec/FireResCosby.glb",
+    mapTag: "solar"
+  }
 ];
 
 const aduGrid = document.getElementById('aduGrid');
