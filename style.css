@@ -1306,3 +1306,7 @@ main > *:nth-child(5) { animation-delay: 0.5s; }
   border-bottom: none; /* remove line */
   padding-bottom: 4px;
 }
+
+.material-select {
+  display: none;
+}

@@ -367,29 +367,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   
   /* ==================== ADU Explorer ==================== */
 const adus = [
-  {
-    name: "Fire-Resistant Modular",
-    cost: "$$",
-    energy: "A+",
-    water: "A",
-    wildfire: "High",
-    equity: "Strong",
-    desc: "Metal-frame prefab with Class A roof, solar battery, and fire-rated cladding.",
-    model: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/CesiumMan/glTF-Binary/CesiumMan.glb",
-    mapTag: "hub"
-  },
-  
-  {
-    name: "Greywater-Ready Backyard Unit",
-    cost: "$",
-    energy: "B+",
-    water: "A+",
-    wildfire: "Medium",
-    equity: "Strong",
-    desc: "Simple stick-built ADU with rainwater and greywater reuse integration.",
-    model: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
-    mapTag: "water"
-  },
   
   {
     name: "Solar Micro-ADU",
@@ -415,7 +392,7 @@ const adus = [
   }, 
   
  {
-  name: "TEST 2",
+  name: "TEST 2 ",
   cost: "$$",
   energy: "A",
   water: "A",
@@ -461,27 +438,30 @@ function showADU(a) {
   aduTitle.textContent = a.name;
   aduDesc.textContent = a.desc;
 
-  // Determine selected material IF the ADU uses multi-material models
+  const materialUI = document.querySelector('.material-select');
+
+  // Check if this ADU has multiple materials
+  const hasMaterials = typeof a.model === "object";
+
+  // Show or hide material selector
+  materialUI.style.display = hasMaterials ? "flex" : "none";
+
+  // Determine selected material
   let selectedMaterial = "marble";
   const materialRadio = document.querySelector('input[name="material"]:checked');
+  if (materialRadio) selectedMaterial = materialRadio.value;
 
-  if (materialRadio) {
-    selectedMaterial = materialRadio.value;
-  }
-
-  // Handle single-model ADUs (string) vs multi-material ADUs (object)
-  if (typeof a.model === "string") {
-    // Single GLB — ignore material switcher
-    aduModel.src = a.model;
-  } else {
-    // Multi-material GLB (marble/ceramic)
+  // Load model
+  if (hasMaterials) {
     aduModel.src = a.model[selectedMaterial];
+  } else {
+    aduModel.src = a.model; // single GLB
   }
 
-  // Update model on material change (only works for multi-material ADUs)
+  // Update on material change
   document.querySelectorAll('input[name="material"]').forEach(radio => {
     radio.onchange = (e) => {
-      if (typeof a.model === "object") {
+      if (hasMaterials) {
         aduModel.src = a.model[e.target.value];
       }
     };
@@ -500,6 +480,7 @@ function showADU(a) {
     });
   }
 }
+
 
 aduClose.addEventListener('click', () => {
   aduViewer.hidden = true;
