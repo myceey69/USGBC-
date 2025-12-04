@@ -391,6 +391,18 @@ const adus = [
     mapTag: "solar"
   }, 
   
+   {
+    name: "TESTT",
+    cost: "$$$",
+    energy: "A++",
+    water: "B",
+    wildfire: "High",
+    equity: "Moderate",
+    desc: "Off-grid capable micro-unit ideal for community hubs or senior housing.",
+    model:"https://raw.githubusercontent.com/myceey69/USGBC-/14a16da16591e8b3f72e129919f5ebe8cfbec729/MoniqueADU.glb",
+    mapTag: "solar"
+  }, 
+  
  {
   name: "TEST 2 ",
   cost: "$$",
