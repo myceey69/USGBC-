@@ -380,7 +380,7 @@ const adus = [
     mapTag: "solar"
   }, 
   {
-    name: "TEST",
+    name: "ADU 1",
     cost: "$$$",
     energy: "A++",
     water: "B",
@@ -392,7 +392,7 @@ const adus = [
   }, 
   
    {
-    name: "TESTT",
+    name: "ADU 2",
     cost: "$$$",
     energy: "A++",
     water: "B",
@@ -404,7 +404,7 @@ const adus = [
   }, 
   
  {
-  name: "TEST 2 ",
+  name: "ADU 3",
   cost: "$$",
   energy: "A",
   water: "A",
