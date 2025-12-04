@@ -401,7 +401,8 @@ const adus = [
   desc: "Fire-resistant ADU with optional marble or ceramic exterior materials.",
   model: {
     marble: "https://raw.githubusercontent.com/myceey69/USGBC-/032e246e40c0b3a5761a32d25e34d88fda6014ec/FireResCosby.glb",
-    ceramic: "https://raw.githubusercontent.com/myceey69/USGBC-/42013288126c5f8f7c92481945b2fb057c4c6818/FireResCosby2.glb"
+    ceramic: "https://raw.githubusercontent.com/myceey69/USGBC-/42013288126c5f8f7c92481945b2fb057c4c6818/FireResCosby2.glb",
+	granite: "https://raw.githubusercontent.com/myceey69/USGBC-/feae388d162ac7c5ec471bca23aefd64416e9f9d/FireResCosby3.glb"
   },
   mapTag: "FireResCosby"
 }
