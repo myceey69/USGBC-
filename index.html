@@ -52,6 +52,7 @@
       <div class="group">Tools</div>
       <a href="#cesium-story">3D Story Viewer</a>
       <a href="#tools">Tools & Checklists</a>
+	  <a href="#fire-materials">Fire-Resistant Building Materials</a>
       <a href="#adu">ADU Explorer</a>
       <a href="#adu-tester">House/ADU Wildfire Tester</a>
       <a href="#wildfire-tools">Wildfire Events</a>
@@ -82,18 +83,16 @@
           <div class="k"><div class="small">Tree canopy</div><strong>~12%</strong></div>
         </div>
       </div>
-      <div class="panel">
-        
-		
-		<img src="bigLogoUSGBC.png" alt="Description" >
-		
-		
-		
-		
-      </div>
+	  
+	  
+      <div class="hero-video">
+  <video autoplay muted loop playsinline>
+    <source src="USGBC_Logo_Reveal_2.mp4" type="video/mp4">
+  </video>
+</div>
     </section>
    
-   
+   </section>
    
    <!-- ======================= RISK & DAMAGE ======================= -->
 <section class="panel" id="risk">
@@ -261,8 +260,6 @@
   </div>
 </section>
 
-
-
      <!-- Cesium ion Story Viewer -->
     <section class="panel" id="cesium-story">
       <h3>3D Story Viewer</h3>
@@ -380,6 +377,70 @@
       </div>
     </section>
 	
+	<!-- ======================= FIRE-RESISTANT MATERIALS ======================= -->
+<section class="panel" id="fire-materials">
+  <h3>Fire-Resistant Building Materials</h3>
+
+  <div class="fire-materials-grid">
+
+    <!-- LEFT: TEXT -->
+    <div class="fire-materials-text">
+      <h4>Walls / Structural Materials</h4>
+      <ul>
+        <li>Fiber cement siding panels</li>
+        <li>Stucco / cement finish boards</li>
+        <li>Concrete blocks (CMU)</li>
+        <li>Solid concrete masonry units</li>
+      </ul>
+
+      <h4>Roofing Materials</h4>
+      <ul>
+        <li>Standing seam metal roofing panels</li>
+        <li>Clay roof tiles (terracotta)</li>
+      </ul>
+
+      <h4>Windows / Openings</h4>
+      <ul>
+        <li>Dual-pane tempered glass windows</li>
+        <li>Aluminum / metal window frames</li>
+      </ul>
+
+      <h4>Doors</h4>
+      <ul>
+        <li>Steel exterior doors (fire-rated)</li>
+      </ul>
+
+      <h4>Exterior Surfaces / Decking</h4>
+      <ul>
+        <li>Fire-resistant composite decking boards</li>
+      </ul>
+
+      <h4>Paving / Hardscape</h4>
+      <ul>
+        <li>Concrete pavers</li>
+        <li>Stone pavers</li>
+      </ul>
+
+      <h4>Ventilation Protection</h4>
+      <ul>
+        <li>Ember-resistant vent screens / metal vent covers</li>
+      </ul>
+
+      <h4>Defensive Landscaping</h4>
+      <ul>
+        <li>Gravel / decorative stone</li>
+        <li>Fire-resistant plants (succulents)</li>
+      </ul>
+    </div>
+
+    <!-- RIGHT: IMAGE -->
+    <div class="fire-materials-image">
+      <img src="USGBC_Materials_.jpg" alt="Fire-resistant building materials">
+    </div>
+
+  </div>
+</section>
+
     <section class="panel" id="adu">
       <h3>ADU Explorer: Sustainable Rebuilding Options</h3>
       <p class="small">Explore fire-resilient, water-smart, and equitable accessory dwelling unit (ADU) models suitable for your recovery plan.</p>
@@ -615,6 +676,7 @@
       <p class="small">Starter map centered on Altadena. Replace placeholder points with exact coordinates as needed.</p>
       <div id="map" role="region" aria-label="Map of recovery hubs"></div>
     </section>
+    
     <footer>
       <div>Built from your Altadena Fire Rebuild plan (sections: demographics, risk, hubs, water, transit, green rebuild, equity, monitoring). Pages referenced inline above. <strong>Source:</strong> your uploaded PDF.</div>
       <div style="margin-top:6px" class="small">Accessibility: keyboard navigation, focusable controls, reduced motion by OS setting, print stylesheet included.</div>
@@ -653,6 +715,21 @@
     // Check for saved state on page load
     if (localStorage.getItem('sidebarHidden') === 'true') {
       app.classList.add('sidebar-hidden');
+    }
+
+    // Navigation function for buttons
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        // Calculate offset to account for any fixed headers
+        const offset = 80; // Adjust this value as needed
+        const sectionTop = section.offsetTop - offset;
+        
+        window.scrollTo({
+          top: sectionTop,
+          behavior: 'smooth'
+        });
+      }
     }
   </script>
   </body>

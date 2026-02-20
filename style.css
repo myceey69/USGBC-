@@ -1,3 +1,275 @@
+/* ======================= NAVIGATION BUTTONS ======================= */
+.navigation-buttons {
+  margin: 24px 0;
+  padding: 0;
+}
+
+.nav-buttons-container {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border: 2px solid rgba(96, 165, 250, 0.3);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(17, 29, 46, 0.9), rgba(11, 19, 32, 0.9));
+  color: #e6f0ff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.nav-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient);
+  opacity: 0.8;
+  transition: var(--transition);
+}
+
+.nav-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--brand);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, rgba(17, 29, 46, 0.95), rgba(11, 19, 32, 0.95));
+}
+
+.nav-btn:hover::before {
+  opacity: 1;
+  height: 4px;
+}
+
+.nav-btn:active {
+  transform: translateY(-1px);
+}
+
+.nav-btn svg {
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.nav-btn:hover svg {
+  transform: scale(1.1);
+}
+
+.guide-btn {
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.guide-btn::before {
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+}
+
+.guide-btn:hover {
+  border-color: var(--brand);
+  box-shadow: 0 8px 24px rgba(74, 222, 128, 0.3);
+}
+
+.tools-btn {
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+.tools-btn::before {
+  background: linear-gradient(90deg, var(--brand-2), var(--accent));
+}
+
+.tools-btn:hover {
+  border-color: var(--brand-2);
+  box-shadow: 0 8px 24px rgba(96, 165, 250, 0.3);
+}
+
+@media (max-width: 768px) {
+  .nav-buttons-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .nav-btn {
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
+
+/* ======================= NAVIGATION BUTTONS ======================= */
+.tab-navigation {
+  margin: 24px 0;
+  padding: 0;
+}
+
+.tab-container {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  background: rgba(17, 29, 46, 0.6);
+  border-radius: var(--radius);
+  padding: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(96, 165, 250, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.tab-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 16px 24px !important;
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  background: transparent !important;
+  color: #8aa0b7 !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  cursor: pointer !important;
+  transition: var(--transition) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  font-family: inherit !important;
+  flex: 1 !important;
+  justify-content: center !important;
+}
+
+.tab-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(17, 29, 46, 0.9), rgba(11, 19, 32, 0.9));
+  opacity: 0;
+  transition: var(--transition);
+  border-radius: var(--radius-sm);
+}
+
+.tab-btn:hover {
+  color: #e6f0ff;
+  background: rgba(96, 165, 250, 0.1);
+}
+
+.tab-btn.active {
+  color: #fff;
+  background: linear-gradient(135deg, rgba(17, 29, 46, 0.9), rgba(11, 19, 32, 0.9));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.tab-btn.active::before {
+  opacity: 1;
+}
+
+.tab-btn svg {
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.tab-btn:hover svg,
+.tab-btn.active svg {
+  transform: scale(1.1);
+}
+
+.tab-btn.active svg {
+  color: var(--brand);
+}
+
+/* Tab Content */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .tab-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .tab-btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+}
+
+/* ================= FIRE MATERIALS SECTION ================= */
+/* ===== HERO BACKGROUND VIDEO ===== */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid rgba(96,165,250,0.2);
+  box-shadow: var(--shadow-lg);
+}
+
+.fire-materials-grid {
+  display: grid;
+  gap: 30px;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .fire-materials-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+}
+
+.fire-materials-text h4 {
+  margin-top: 18px;
+  margin-bottom: 8px;
+  color: #e6f0ff;
+}
+
+.fire-materials-text ul {
+  margin-bottom: 12px;
+  padding-left: 18px;
+  color: #cfe3ff;
+}
+
+.fire-materials-text li {
+  margin-bottom: 6px;
+}
+
+.fire-materials-image img {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid rgba(96,165,250,0.2);
+  box-shadow: var(--shadow-lg);
+}
+
 :root {
   --bg: #0a121e;
   --panel: #111d2e;
