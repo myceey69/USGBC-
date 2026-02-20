@@ -1,4 +1,17 @@
 /* ======================= NAVIGATION BUTTONS ======================= */
+
+.mini-tts {
+  margin-left: 8px;
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer;
+}
+.mini-tts:hover { opacity: 0.95; }
+
+
 .navigation-buttons {
   margin: 24px 0;
   padding: 0;
