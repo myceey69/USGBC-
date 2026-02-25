@@ -368,19 +368,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   /* ==================== ADU Explorer ==================== */
 const adus = [
   
+ 
   {
-    name: "Solar Micro-ADU",
-    cost: "$$$",
-    energy: "A++",
-    water: "B",
-    wildfire: "High",
-    equity: "Moderate",
-    desc: "Off-grid capable micro-unit ideal for community hubs or senior housing.",
-    model:"https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-    mapTag: "solar"
-  }, 
-  {
-    name: "ADU 1",
+    name: "Monique's ADU",
     cost: "$$$",
     energy: "A++",
     water: "B",
@@ -391,20 +381,11 @@ const adus = [
     mapTag: "solar"
   }, 
   
-   {
-    name: "ADU 2",
-    cost: "$$$",
-    energy: "A++",
-    water: "B",
-    wildfire: "High",
-    equity: "Moderate",
-    desc: "Off-grid capable micro-unit ideal for community hubs or senior housing.",
-    model:"https://raw.githubusercontent.com/myceey69/USGBC-/14a16da16591e8b3f72e129919f5ebe8cfbec729/MoniqueADU.glb",
-    mapTag: "solar"
-  }, 
+
+  
   
  {
-  name: "ADU 3",
+  name: "Yiceth's ADU",
   cost: "$$",
   energy: "A",
   water: "A",
@@ -417,7 +398,19 @@ const adus = [
 	granite: "https://raw.githubusercontent.com/myceey69/USGBC-/feae388d162ac7c5ec471bca23aefd64416e9f9d/FireResCosby3.glb"
   },
   mapTag: "FireResCosby"
-}
+}, 
+
+   {
+    name: "Yiceth's ADU 2",
+    cost: "$$$",
+    energy: "A++",
+    water: "B",
+    wildfire: "High",
+    equity: "Moderate",
+    desc: "Off-grid capable micro-unit ideal for community hubs or senior housing.",
+    model:"https://raw.githubusercontent.com/myceey69/USGBC-/14a16da16591e8b3f72e129919f5ebe8cfbec729/MoniqueADU.glb",
+    mapTag: "solar"
+   }
 
 
 ];
@@ -502,16 +495,16 @@ aduClose.addEventListener('click', () => {
 
 /* === Hotspots for ADU models (add below your ADU Explorer code) === */
 adus[0].hotspots = [
-  {label:"Solar roof (Class A)", pos:"0 0 1.55", normal:"0 0 -1"},
-  {label:"Ember-safe cladding",  pos:"-1.6 0 0.9", normal:"1 0 0"}
+  {label:"Reason 1",      pos:"0 0 1.55", normal:"0 0 -1"},
+  {label:"Reason 2",      pos:"-1.6 5 0.9", normal:"1 0 0"}
 ];
 adus[1].hotspots = [
-  {label:"Rain barrel",          pos:"-1.4 -0.9 0.9", normal:"1 0 0"},
-  {label:"Greywater reuse",      pos:"0 0 0.1", normal:"0 0 1"}
+  {label:"Reason 1",      pos:"-1.4 -0.9 0.9", normal:"1 0 0"},
+  {label:"Reason 2",      pos:"0 5 0.1", normal:"0 0 1"}
 ];
 adus[2].hotspots = [
-  {label:"Solar array",          pos:"0 -0.1 1.1", normal:"0 0 -1"},
-  {label:"Battery pack",         pos:"1.2 0 0.5", normal:"-1 0 0"}
+  {label:"Reason 1",      pos:"0 -0.1 1.1", normal:"0 0 -1"},
+  {label:"Reason 2",      pos:"1.2 5 0.5", normal:"-1 0 0"}
 ];
 
 function clearHotspots() {
