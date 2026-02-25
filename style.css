@@ -1,4 +1,33 @@
 /* ======================= NAVIGATION BUTTONS ======================= */
+#materialPreview {
+  position: fixed;
+  pointer-events: none;
+  width: 220px;
+  background: #0f1a2e;
+  border: 1px solid rgba(96,165,250,0.3);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  padding: 6px;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 9999;
+}
+
+#materialPreview img {
+  width: 100%;
+  border-radius: 8px;
+  display: block;
+}
+
+.fire-materials-text li {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.fire-materials-text li:hover {
+  color: var(--brand);
+}
 
 .mini-tts {
   margin-left: 8px;
