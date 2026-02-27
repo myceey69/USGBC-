@@ -675,23 +675,10 @@ const previewImg = preview.querySelector("img");
 
 document.querySelectorAll(".fire-materials-text li").forEach(item => {
 
-  item.addEventListener("mouseenter", e => {
+  item.addEventListener("mouseenter", () => {
     const img = item.getAttribute("data-img");
     if (!img) return;
-
     previewImg.src = img;
-    preview.style.opacity = "1";
-    preview.style.transform = "scale(1)";
-  });
-
-  item.addEventListener("mousemove", e => {
-    preview.style.top = (e.clientY + 20) + "px";
-    preview.style.left = (e.clientX + 20) + "px";
-  });
-
-  item.addEventListener("mouseleave", () => {
-    preview.style.opacity = "0";
-    preview.style.transform = "scale(0.95)";
   });
 
 });
